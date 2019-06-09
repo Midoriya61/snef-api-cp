@@ -1,4 +1,157 @@
 package com.tinlm.snef.repository;
 
-public class ProductFlashSalesDAO {
+import com.tinlm.snef.connection.MyConnection;
+import com.tinlm.snef.model.ProductFlashSales;
+import org.springframework.stereotype.Repository;
+
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository
+public class ProductFlashSalesDAO implements Serializable {
+
+    Connection con;
+    PreparedStatement stm;
+    ResultSet rs;
+
+    private void closeConnection() throws SQLException {
+        if (rs != null){
+            rs.close();
+        }
+        if (stm !=null){
+            stm.close();
+        }
+        if (con!=null){
+            con.close();
+        }
+    }
+    public List<ProductFlashSales> loadFsToDay() throws SQLException, ClassNotFoundException {
+
+        List<ProductFlashSales> flashSales = null;
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql =
+                        "SELECT fs.ProductFlashSalesId, fs.Discount, fs.StartDate, fs.EndDate, fs.Quantity, fs.StoreProductId, fs.StoreId, " +
+                                "p.Price, p.StoreProductName, p.Picture " +
+                                "FROM ProductFlashSales fs, StoreProduct p " +
+                                "WHERE fs.StoreProductId = p.StoreProductId " +
+                                "AND CONVERT(DATE , GETDATE()) >= fs.StartDate AND CONVERT(DATE, fs.EndDate) <= CONVERT(DATE, GETDATE())";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    int fsId = rs.getInt("ProductFlashSalesId");
+                    int discount = rs.getInt("Discount");
+                    String startdate = rs.getString("StartDate");
+                    String enddate = rs.getString("EndDate");
+                    int quantity = rs.getInt("Quantity");
+                    int productitemid = rs.getInt("StoreProductId");
+                    int accountid = rs.getInt("StoreId");
+                    float price = rs.getFloat("Price");
+                    String itemName = rs.getString("StoreProductName");
+                    String image = rs.getString("Picture");
+
+                    ProductFlashSales dto = new ProductFlashSales(fsId, discount, startdate, enddate, quantity, productitemid, accountid, price, itemName, image);
+                    if (flashSales == null){
+                        flashSales = new ArrayList<>();
+                    }
+                    flashSales.add(dto);
+
+                }
+                return flashSales;
+            }
+        }finally {
+            closeConnection();
+
+        }
+        return null;
+    }
+
+    public List<ProductFlashSales> loadFsTomoroww() throws SQLException, ClassNotFoundException {
+
+        List<ProductFlashSales> flashSales = null;
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql =
+                        "SELECT fs.ProductFlashSalesId, fs.Discount, fs.StartDate, fs.EndDate, fs.Quantity, fs.StoreProductId, fs.StoreId, " +
+                                "p.Price, p.StoreProductName, p.Picture " +
+                                "FROM ProductFlashSales fs, StoreProduct p " +
+                                "WHERE fs.StoreProductId = p.StoreProductId " +
+                                "AND CONVERT(DATE , GETDATE() + 1) >= fs.StartDate AND CONVERT(DATE, fs.EndDate) <= CONVERT(DATE, GETDATE() + 1)";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    int fsId = rs.getInt("ProductFlashSalesId");
+                    int discount = rs.getInt("Discount");
+                    String startdate = rs.getString("StartDate");
+                    String enddate = rs.getString("EndDate");
+                    int quantity = rs.getInt("Quantity");
+                    int productitemid = rs.getInt("StoreProductId");
+                    int accountid = rs.getInt("StoreId");
+                    float price = rs.getFloat("Price");
+                    String itemName = rs.getString("StoreProductName");
+                    String image = rs.getString("Picture");
+
+                    ProductFlashSales dto = new ProductFlashSales(fsId, discount, startdate, enddate, quantity, productitemid, accountid, price, itemName, image);
+                    if (flashSales == null){
+                        flashSales = new ArrayList<>();
+                    }
+                    flashSales.add(dto);
+
+                }
+                return flashSales;
+            }
+        }finally {
+
+            closeConnection();
+        }
+        return null;
+    }
+
+    public List<ProductFlashSales> loadFsNext() throws SQLException, ClassNotFoundException {
+
+        List<ProductFlashSales> flashSales = null;
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql =
+                        "SELECT fs.ProductFlashSalesId, fs.Discount, fs.StartDate, fs.EndDate, fs.Quantity, fs.StoreProductId, fs.StoreId, " +
+                                "p.Price, p.StoreProductName, p.Picture " +
+                                "FROM ProductFlashSales fs, StoreProduct p " +
+                                "WHERE fs.StoreProductId = p.StoreProductId " +
+                                "AND CONVERT(DATE , GETDATE() + 2) >= fs.StartDate AND CONVERT(DATE, fs.EndDate) <= CONVERT(DATE, GETDATE() + 2)";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    int fsId = rs.getInt("ProductFlashSalesId");
+                    int discount = rs.getInt("Discount");
+                    String startdate = rs.getString("StartDate");
+                    String enddate = rs.getString("EndDate");
+                    int quantity = rs.getInt("Quantity");
+                    int productitemid = rs.getInt("StoreProductId");
+                    int accountid = rs.getInt("StoreId");
+                    float price = rs.getFloat("Price");
+                    String itemName = rs.getString("StoreProductName");
+                    String image = rs.getString("Picture");
+
+                    ProductFlashSales dto = new ProductFlashSales(fsId, discount, startdate, enddate, quantity, productitemid, accountid, price, itemName, image);
+                    if (flashSales == null){
+                        flashSales = new ArrayList<>();
+                    }
+                    flashSales.add(dto);
+
+                }
+                return flashSales;
+            }
+        }finally {
+            closeConnection();
+        }
+        return null;
+    }
 }

@@ -4,44 +4,36 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
 
-    private int productid;
-    private String productname;
+    private int productId;
+    private String productName;
     private String description;
     private String picture;
-    private int categoriesid;
+    private int categoriesId;
 
     public Product() {
     }
 
-    public Product(int productid, String productname, String description, String picture, int categoriesid) {
-        this.productid = productid;
-        this.productname = productname;
+    public Product(String productName, String description, String picture, int categoriesId) {
+        this.productName = productName;
         this.description = description;
         this.picture = picture;
-        this.categoriesid = categoriesid;
+        this.categoriesId = categoriesId;
     }
 
-    public Product(String productname, String description, String picture, int categoriesid) {
-        this.productname = productname;
-        this.description = description;
-        this.picture = picture;
-        this.categoriesid = categoriesid;
+    public int getProductId() {
+        return productId;
     }
 
-    public int getProductid() {
-        return productid;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public void setProductid(int productid) {
-        this.productid = productid;
+    public String getProductName() {
+        return productName;
     }
 
-    public String getProductname() {
-        return productname;
-    }
-
-    public void setProductname(String productname) {
-        this.productname = productname;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getDescription() {
@@ -60,11 +52,19 @@ public class Product implements Serializable {
         this.picture = picture;
     }
 
-    public int getCategoriesid() {
-        return categoriesid;
+    public int getCategoriesId() {
+        return categoriesId;
     }
 
-    public void setCategoriesid(int categoriesid) {
-        this.categoriesid = categoriesid;
+    public void setCategoriesId(int categoriesId) {
+        this.categoriesId = categoriesId;
+    }
+
+    public Product(int productId, String productName, String description, String picture, int categoriesId) {
+        this.productId = productId;
+        this.productName = productName;
+        this.description = description;
+        this.picture = picture;
+        this.categoriesId = categoriesId;
     }
 }
