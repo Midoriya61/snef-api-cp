@@ -16,7 +16,7 @@ public class ProductFlashSalesService {
     @Autowired
     ProductFlashSalesDAO faSalesDAO = new ProductFlashSalesDAO();
 
-    @RequestMapping(method = RequestMethod.GET, path = "/flashsales", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, path = "/flashsales/today", produces = "application/json")
     public List<ProductFlashSales> getByToday() throws SQLException, ClassNotFoundException{
         List<ProductFlashSales> rs = faSalesDAO.loadFsToDay();
         System.out.println(rs.size());
