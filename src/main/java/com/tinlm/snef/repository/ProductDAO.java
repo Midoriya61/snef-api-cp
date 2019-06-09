@@ -71,7 +71,7 @@ public class ProductDAO implements Serializable {
         try {
             con = MyConnection.myConnection();
             if (con != null){
-                String sql = "ELECT p.ProductId, p.ProductName,p.Description,p.Picture,p.CategoriesId " +
+                String sql = "SELECT p.ProductId, p.ProductName,p.Description,p.Picture,p.CategoriesId " +
                         "FROM Product p " +
                         "WHERE p.ProductName LIKE ?";
                 stm = con.prepareStatement(sql);

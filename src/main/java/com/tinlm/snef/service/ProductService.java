@@ -20,9 +20,7 @@ public class ProductService {
      * */
     @RequestMapping(method = RequestMethod.GET, path = "/products", produces = "application/json")
     public List<Product> getAllPro() throws SQLException, ClassNotFoundException {
-
         List<Product> getList = proDao.loadAllProduct();
-        System.out.println(getList.size());
         return getList;
     }
 
@@ -32,9 +30,7 @@ public class ProductService {
 
     @RequestMapping(method = RequestMethod.GET, value = "products/{name}", produces = "application/json")
     public List<Product> getProName(@PathVariable String name) throws SQLException, ClassNotFoundException{
-        System.out.println("name: " + name);
-        List<Product> getListName = proDao.searchProByName(name);
-        System.out.println(getListName.size());
+        List<Product> getListName = proDao.searchProByName(name);        ;
         return getListName;
     }
 
