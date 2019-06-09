@@ -28,7 +28,7 @@ public class ProductService {
      * Get Product Name API
      * */
 
-    @RequestMapping(method = RequestMethod.GET, value = "products/{name}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/products/{name}", produces = "application/json")
     public List<Product> getProName(@PathVariable String name) throws SQLException, ClassNotFoundException{
         List<Product> getListName = proDao.searchProByName(name);        ;
         return getListName;

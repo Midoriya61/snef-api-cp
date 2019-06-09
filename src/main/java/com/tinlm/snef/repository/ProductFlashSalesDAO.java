@@ -36,12 +36,19 @@ public class ProductFlashSalesDAO implements Serializable {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
+
+                // convet varchar to Date type YYYY-MM-DD
+//                CONVERT(DATE,LEFT(REPLACE(EndDate, '/', ''),4)
+//                        +SUBSTRING(REPLACE(EndDate, '/', ''),5,2)+RIGHT(REPLACE(EndDate, '/', ''),2))
                 String sql =
                         "SELECT fs.ProductFlashSalesId, fs.Discount, fs.StartDate, fs.EndDate, fs.Quantity, fs.StoreProductId, fs.StoreId, " +
                                 "p.Price, p.StoreProductName, p.Picture " +
-                                "FROM ProductFlashSales fs, StoreProduct p " +
+                                "FROM FlashSalesProduct fs, StoreProduct p " +
                                 "WHERE fs.StoreProductId = p.StoreProductId " +
-                                "AND CONVERT(DATE , GETDATE()) >= fs.StartDate AND CONVERT(DATE, fs.EndDate) <= CONVERT(DATE, GETDATE())";
+                                "AND CONVERT(DATE , GETDATE()) >= CONVERT(DATE,LEFT(REPLACE(fs.StartDate, '/', ''),4) " +
+                                "+SUBSTRING(REPLACE(fs.StartDate, '/', ''),5,2)+RIGHT(REPLACE(fs.StartDate, '/', ''),2)) " +
+                                "AND CONVERT(DATE,LEFT(REPLACE(fs.EndDate, '/', ''),4) " +
+                                "+SUBSTRING(REPLACE(fs.EndDate, '/', ''),5,2)+RIGHT(REPLACE(fs.EndDate, '/', ''),2)) >=  CONVERT(DATE , GETDATE())";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
@@ -81,9 +88,12 @@ public class ProductFlashSalesDAO implements Serializable {
                 String sql =
                         "SELECT fs.ProductFlashSalesId, fs.Discount, fs.StartDate, fs.EndDate, fs.Quantity, fs.StoreProductId, fs.StoreId, " +
                                 "p.Price, p.StoreProductName, p.Picture " +
-                                "FROM ProductFlashSales fs, StoreProduct p " +
+                                "FROM FlashSalesProduct fs, StoreProduct p " +
                                 "WHERE fs.StoreProductId = p.StoreProductId " +
-                                "AND CONVERT(DATE , GETDATE() + 1) >= fs.StartDate AND CONVERT(DATE, fs.EndDate) <= CONVERT(DATE, GETDATE() + 1)";
+                                "AND CONVERT(DATE , GETDATE() + 1) >= CONVERT(DATE,LEFT(REPLACE(fs.StartDate, '/', ''),4) " +
+                                "+SUBSTRING(REPLACE(fs.StartDate, '/', ''),5,2)+RIGHT(REPLACE(fs.StartDate, '/', ''),2)) " +
+                                "AND CONVERT(DATE,LEFT(REPLACE(fs.EndDate, '/', ''),4) " +
+                                "+SUBSTRING(REPLACE(fs.EndDate, '/', ''),5,2)+RIGHT(REPLACE(fs.EndDate, '/', ''),2)) >=  CONVERT(DATE , GETDATE() + 1)";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
@@ -123,9 +133,12 @@ public class ProductFlashSalesDAO implements Serializable {
                 String sql =
                         "SELECT fs.ProductFlashSalesId, fs.Discount, fs.StartDate, fs.EndDate, fs.Quantity, fs.StoreProductId, fs.StoreId, " +
                                 "p.Price, p.StoreProductName, p.Picture " +
-                                "FROM ProductFlashSales fs, StoreProduct p " +
+                                "FROM FlashSalesProduct fs, StoreProduct p " +
                                 "WHERE fs.StoreProductId = p.StoreProductId " +
-                                "AND CONVERT(DATE , GETDATE() + 2) >= fs.StartDate AND CONVERT(DATE, fs.EndDate) <= CONVERT(DATE, GETDATE() + 2)";
+                                "AND CONVERT(DATE , GETDATE() + 2) >= CONVERT(DATE,LEFT(REPLACE(fs.StartDate, '/', ''),4) " +
+                                "+SUBSTRING(REPLACE(fs.StartDate, '/', ''),5,2)+RIGHT(REPLACE(fs.StartDate, '/', ''),2)) " +
+                                "AND CONVERT(DATE,LEFT(REPLACE(fs.EndDate, '/', ''),4) " +
+                                "+SUBSTRING(REPLACE(fs.EndDate, '/', ''),5,2)+RIGHT(REPLACE(fs.EndDate, '/', ''),2)) >=  CONVERT(DATE , GETDATE() + 2)";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
