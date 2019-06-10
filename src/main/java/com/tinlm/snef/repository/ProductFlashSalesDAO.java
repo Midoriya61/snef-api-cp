@@ -182,8 +182,8 @@ public class ProductFlashSalesDAO implements Serializable {
                         "SELECT fs.ProductFlashSalesId, fs.Discount, fs.StartDate, fs.EndDate, fs.Quantity, fs.StoreProductId, fs.StoreId, " +
                                 "p.Price, p.StoreProductName, p.Picture " +
                                 "FROM FlashSalesProduct fs, StoreProduct p " +
-                                "WHERE fs.StoreProductId = p.StoreProductId " +
-                        " f.ProductFlashSalesid = ?";
+                                "WHERE fs.StoreProductId = p.StoreProductId and " +
+                        " fs.ProductFlashSalesid = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, fsId);
                 rs = stm.executeQuery();
