@@ -42,7 +42,7 @@ public class ProductFlashSalesService {
 
     //06/10/2019 TinLM Update
     @RequestMapping(method = RequestMethod.GET, path = "/flashsales/{id}", produces = "application/json")
-    public ProductFlashSales getById(@PathVariable Integer fsId) throws SQLException, ClassNotFoundException {
+    public ProductFlashSales getById(@PathVariable("fsId") Integer fsId) throws SQLException, ClassNotFoundException {
 
         ProductFlashSales searchValue =faSalesDAO.searchFSById(fsId);
         return searchValue;
