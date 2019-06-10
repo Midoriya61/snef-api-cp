@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//06102019 TinLM Update searchFSById
+
 @Repository
 public class ProductFlashSalesDAO implements Serializable {
 
@@ -168,33 +171,34 @@ public class ProductFlashSalesDAO implements Serializable {
         return null;
     }
 
-    public List<ProductFlashSales> searchFSById(int fsId) throws SQLException, ClassNotFoundException {
-        List<ProductFlashSales> searchValue = null;
+    //06102019 TinLM Update
+
+    public ProductFlashSales searchFSById(int fsId) throws SQLException, ClassNotFoundException {
+        ProductFlashSales searchValue = null;
         try {
             con = MyConnection.myConnection();
             if (con !=null){
                 String sql =
-                        "SELECT f.ProductFlashSalesid, f.Discount, f.StartDate, f.EndDate, f.Quantity, f.StoreId, f.StoreProductId " +
-                        "FROM dbo.FlashSalesProduct f " +
-                        "WHERE f.ProductFlashSalesid = ?";
+                        "SELECT fs.ProductFlashSalesId, fs.Discount, fs.StartDate, fs.EndDate, fs.Quantity, fs.StoreProductId, fs.StoreId, " +
+                                "p.Price, p.StoreProductName, p.Picture " +
+                                "FROM FlashSalesProduct fs, StoreProduct p " +
+                                "WHERE fs.StoreProductId = p.StoreProductId " +
+                        " f.ProductFlashSalesid = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, fsId);
                 rs = stm.executeQuery();
-                while (rs.next()){
-                    int profsId = rs.getInt("ProductFlashSalesId");
+                if (rs.next()){
                     int discount = rs.getInt("Discount");
                     String startdate = rs.getString("StartDate");
                     String enddate = rs.getString("EndDate");
                     int quantity = rs.getInt("Quantity");
-                    int storeId = rs.getInt("StoreId");
-                    int storeProductId = rs.getInt("StoreProductId");
+                    int productitemid = rs.getInt("StoreProductId");
+                    int accountid = rs.getInt("StoreId");
+                    float price = rs.getFloat("Price");
+                    String itemName = rs.getString("StoreProductName");
+                    String image = rs.getString("Picture");
 
-
-                    ProductFlashSales dto = new ProductFlashSales(profsId, discount, startdate, enddate,quantity, storeId, storeProductId );
-                    if (searchValue == null){
-                        searchValue = new ArrayList<>();
-                    }
-                    searchValue.add(dto);
+                    searchValue= new ProductFlashSales(fsId, discount, startdate, enddate, quantity, productitemid, accountid, price, itemName, image);
 
                 }
                 return searchValue;
