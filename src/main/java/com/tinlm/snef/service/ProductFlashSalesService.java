@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.SQLException;
 import java.util.List;
 
+
+//06/10/2019 TinLM Update ProductFlashSalesService getById
 @RestController
 public class ProductFlashSalesService {
 
@@ -38,10 +40,11 @@ public class ProductFlashSalesService {
         return rs;
     }
 
+    //06/10/2019 TinLM Update
     @RequestMapping(method = RequestMethod.GET, path = "/flashsales/{id}", produces = "application/json")
-    public List<ProductFlashSales> getById(@PathVariable String fsId) throws SQLException, ClassNotFoundException {
+    public ProductFlashSales getById(@PathVariable String fsId) throws SQLException, ClassNotFoundException {
         int getFsId = Integer.parseInt(fsId);
-        List<ProductFlashSales> searchValue =faSalesDAO.searchFSById(getFsId);
+        ProductFlashSales searchValue =faSalesDAO.searchFSById(getFsId);
         return searchValue;
     }
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-//06102019 TinLM Update searchFSById
+//06/10/2019 TinLM Update searchFSById
 
 @Repository
 public class ProductFlashSalesDAO implements Serializable {
@@ -171,7 +171,7 @@ public class ProductFlashSalesDAO implements Serializable {
         return null;
     }
 
-    //06102019 TinLM Update
+    //06/10/2019 TinLM Update
 
     public ProductFlashSales searchFSById(int fsId) throws SQLException, ClassNotFoundException {
         ProductFlashSales searchValue = null;
