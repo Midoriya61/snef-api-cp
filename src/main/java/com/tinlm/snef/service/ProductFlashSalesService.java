@@ -3,6 +3,7 @@ package com.tinlm.snef.service;
 import com.tinlm.snef.model.ProductFlashSales;
 import com.tinlm.snef.repository.ProductFlashSalesDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +36,13 @@ public class ProductFlashSalesService {
         List<ProductFlashSales> rs = faSalesDAO.loadFsNext();
         System.out.println(rs.size());
         return rs;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/flashsales/{id}", produces = "application/json")
+    public List<ProductFlashSales> getById(@PathVariable String fsId) throws SQLException, ClassNotFoundException {
+        int getFsId = Integer.parseInt(fsId);
+        List<ProductFlashSales> searchValue =faSalesDAO.searchFSById(getFsId);
+        return searchValue;
     }
 
 

@@ -39,6 +39,16 @@ public class ProductFlashSales implements Serializable {
         this.image = image;
     }
 
+    public ProductFlashSales(int productFlashSalesId, int discount, String startDate, String endDate, int quantity, int storeProductId, int storeId) {
+        this.productFlashSalesId = productFlashSalesId;
+        this.discount = discount;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.quantity = quantity;
+        this.storeProductId = storeProductId;
+        this.storeId = storeId;
+    }
+
     public int getProductFlashSalesId() {
         return productFlashSalesId;
     }

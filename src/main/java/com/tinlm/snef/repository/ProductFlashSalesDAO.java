@@ -167,4 +167,41 @@ public class ProductFlashSalesDAO implements Serializable {
         }
         return null;
     }
+
+    public List<ProductFlashSales> searchFSById(int fsId) throws SQLException, ClassNotFoundException {
+        List<ProductFlashSales> searchValue = null;
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql =
+                        "SELECT f.ProductFlashSalesid, f.Discount, f.StartDate, f.EndDate, f.Quantity, f.StoreId, f.StoreProductId " +
+                        "FROM dbo.FlashSalesProduct f " +
+                        "WHERE f.ProductFlashSalesid = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, fsId);
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    int profsId = rs.getInt("ProductFlashSalesId");
+                    int discount = rs.getInt("Discount");
+                    String startdate = rs.getString("StartDate");
+                    String enddate = rs.getString("EndDate");
+                    int quantity = rs.getInt("Quantity");
+                    int storeId = rs.getInt("StoreId");
+                    int storeProductId = rs.getInt("StoreProductId");
+
+
+                    ProductFlashSales dto = new ProductFlashSales(profsId, discount, startdate, enddate,quantity, storeId, storeProductId );
+                    if (searchValue == null){
+                        searchValue = new ArrayList<>();
+                    }
+                    searchValue.add(dto);
+
+                }
+                return searchValue;
+            }
+        }finally {
+            closeConnection();
+        }
+        return null;
+    }
 }
