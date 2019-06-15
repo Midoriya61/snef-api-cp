@@ -40,17 +40,16 @@ public class ProductDAO implements Serializable {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "SELECT p.ProductId, p.ProductName,p.Description,p.Picture,p.CategoriesId FROM Product p";
+                String sql = "SELECT p.ProductId, p.CategoriesId, p.ProductName, p.ImageSrc FROM dbo.Product p";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
                     int pro = rs.getInt("ProductId");
                     String proName = rs.getString("ProductName");
-                    String des = rs.getString("Description");
-                    String pic = rs.getString("Picture");
+                    String pic = rs.getString("ImageSrc");
                     int catId = rs.getInt("CategoriesId");
 
-                    Product dto = new Product(pro, proName, des, pic, catId);
+                    Product dto = new Product(pro, proName, pic, catId);
 
                     products.add(dto);
 
@@ -71,7 +70,7 @@ public class ProductDAO implements Serializable {
         try {
             con = MyConnection.myConnection();
             if (con != null){
-                String sql = "SELECT p.ProductId, p.ProductName,p.Description,p.Picture,p.CategoriesId " +
+                String sql = "SELECT p.ProductId, p.CategoriesId, p.ProductName, p.ImageSrc " +
                         "FROM Product p " +
                         "WHERE p.ProductName LIKE ?";
                 stm = con.prepareStatement(sql);
@@ -80,11 +79,10 @@ public class ProductDAO implements Serializable {
                 while (rs.next()){
                     int proId = rs.getInt("ProductId");
                     String productname = rs.getString("ProductName");
-                    String des = rs.getString("Description");
                     String pic = rs.getString("Picture");
                     int cate = rs.getInt("CategoriesId");
 
-                    Product dto = new Product(proId, productname, des, pic, cate);
+                    Product dto = new Product(proId, productname, pic, cate);
                     if (searchValue == null){
                         searchValue = new ArrayList<>();
                     }
@@ -107,13 +105,11 @@ public class ProductDAO implements Serializable {
         try {
             con = MyConnection.myConnection();
             if (con != null){
-                String sql = "INSERT INTO dbo.Product(ProductName,Description,Picture,CategoriesId) " +
-                        "VALUES(?, ?, ?,?) ";
+                String sql = "INSERT INTO dbo.Product(ProductName,CategoriesId,ImageSrc) VALUES(?,?,?)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, product.getProductName());
-                stm.setString(2, product.getDescription());
-                stm.setString(3, product.getPicture());
-                stm.setInt(4, product.getCategoriesId());
+                stm.setInt(2, product.getCategoriesId());
+                stm.setString(3, product.getImageSrc());
                 int row = stm.executeUpdate();
                 if (row > 0){
                     return true;
@@ -131,23 +127,22 @@ public class ProductDAO implements Serializable {
      * Create new product using dbo.product
      * */
 
-    public boolean updateProById(int proId, String proName, String des, String pic, int cate) throws SQLException, ClassNotFoundException{
+    public boolean updateProById(int proId, String proName, String pic, int cate) throws SQLException, ClassNotFoundException{
 
         try {
             con = MyConnection.myConnection();
             if (con != null){
                 String sql =
                         "UPDATE dbo.Product " +
-                                "SET ProductName = ?, Description = ?, Picture = ?, CategoriesId = ? " +
+                                "SET ProductName = ?, CategoriesId = ?, ImageSrc = ?" +
                                 "WHERE ProductId = ?";
 
                 stm = con.prepareStatement(sql);
 
                 stm.setString(1, proName);
-                stm.setString(2, des);
+                stm.setInt(2, cate);
                 stm.setString(3, pic);
-                stm.setInt(4, cate);
-                stm.setInt(5, proId);
+                stm.setInt(4, proId);
                 int row = stm.executeUpdate();
                 if (row > 0){
                     return true;

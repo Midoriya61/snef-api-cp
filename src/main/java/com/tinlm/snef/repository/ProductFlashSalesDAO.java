@@ -79,7 +79,7 @@ public class ProductFlashSalesDAO implements Serializable {
         return null;
     }
 
-    public List<ProductFlashSales> loadFsTomoroww() throws SQLException, ClassNotFoundException {
+    public List<ProductFlashSales> loadFsTomorow() throws SQLException, ClassNotFoundException {
 
         List<ProductFlashSales> flashSales = null;
         try {

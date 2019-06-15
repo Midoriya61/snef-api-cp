@@ -6,18 +6,23 @@ public class Product implements Serializable {
 
     private int productId;
     private String productName;
-    private String description;
-    private String picture;
     private int categoriesId;
+    private String imageSrc;
 
     public Product() {
     }
 
-    public Product(String productName, String description, String picture, int categoriesId) {
+    public Product(int productId, String productName, String imageSrc, int categoriesId) {
+        this.productId = productId;
         this.productName = productName;
-        this.description = description;
-        this.picture = picture;
+        this.imageSrc = imageSrc;
         this.categoriesId = categoriesId;
+    }
+
+    public Product(String productName, int categoriesId, String imageSrc){
+        this.productName = productName;
+        this.categoriesId = categoriesId;
+        this.imageSrc = imageSrc;
     }
 
     public int getProductId() {
@@ -36,20 +41,12 @@ public class Product implements Serializable {
         this.productName = productName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getImageSrc() {
+        return imageSrc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 
     public int getCategoriesId() {
@@ -57,14 +54,6 @@ public class Product implements Serializable {
     }
 
     public void setCategoriesId(int categoriesId) {
-        this.categoriesId = categoriesId;
-    }
-
-    public Product(int productId, String productName, String description, String picture, int categoriesId) {
-        this.productId = productId;
-        this.productName = productName;
-        this.description = description;
-        this.picture = picture;
         this.categoriesId = categoriesId;
     }
 }

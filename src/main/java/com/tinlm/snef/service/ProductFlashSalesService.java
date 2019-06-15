@@ -26,7 +26,7 @@ public class ProductFlashSalesService {
 
     @RequestMapping(method = RequestMethod.GET, path = "/flashsales/tomorrow", produces = "application/json")
     public List<ProductFlashSales> getByTomorrow() throws SQLException, ClassNotFoundException{
-        List<ProductFlashSales> rs = faSalesDAO.loadFsTomoroww();
+        List<ProductFlashSales> rs = faSalesDAO.loadFsTomorow();
         System.out.println(rs.size());
         return rs;
     }

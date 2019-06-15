@@ -42,11 +42,10 @@ public class ProductService {
     @PostMapping(value = "/products/create")
     public boolean createNewProduct(@Valid @RequestBody Product product) throws SQLException, ClassNotFoundException {
         String proName = product.getProductName();
-        String des = product.getDescription();
-        String pic = product.getPicture();
+        String pic = product.getImageSrc();
         int cate = product.getCategoriesId();
 
-        boolean result = proDao.createNewProduct(new Product(proName, des, pic, cate));
+        boolean result = proDao.createNewProduct(new Product(proName, cate, pic));
         System.out.println(result);
 
         return true;
@@ -60,11 +59,9 @@ public class ProductService {
     public boolean updateProById(@Valid @RequestBody Product product) throws SQLException, ClassNotFoundException {
         int proId = product.getProductId();
         String proName = product.getProductName();
-        String des = product.getDescription();
-        String pic = product.getPicture();
+        String pic = product.getImageSrc();
         int cate = product.getCategoriesId();
-
-        boolean rs = proDao.updateProById(proId,proName,des, pic, cate);
+        boolean rs = proDao.updateProById(proId,proName, pic, cate);
 
         return true;
     }
