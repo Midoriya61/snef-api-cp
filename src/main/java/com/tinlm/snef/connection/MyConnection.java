@@ -11,7 +11,7 @@ public class MyConnection implements Serializable {
 //        String url = "jdbc:sqlserver://localhost:1433;databaseName=SNEF_DEMO";
 //        Connection con = DriverManager.getConnection(url, "sa", "chaulenba");
         String url = "jdbc:sqlserver://localhost:1433;databaseName=NEW_SNEF";
-        Connection con = DriverManager.getConnection(url, "sa", "trungnhan137");
+        Connection con = DriverManager.getConnection(url, "sa", "chaulenba");
         return con;
     }
 }
