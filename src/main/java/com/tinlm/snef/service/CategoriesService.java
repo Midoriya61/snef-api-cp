@@ -19,7 +19,7 @@ public class CategoriesService {
     CategoriesDAO categoriesDAO = new CategoriesDAO();
 
 
-    // 6/17/2019 TinLM Create
+    // 6/17/2019 TinLM Create getAllCategories
     @RequestMapping(method = RequestMethod.GET, path = "/categories", produces = "application/json")
     public List<Categories> getAllCategories() throws SQLException, ClassNotFoundException {
         List<Categories> getList = categoriesDAO.getAllCategories();

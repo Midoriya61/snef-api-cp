@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 6/17/2019 TinLM Create class
-// 6/17/2019 TinLM Create
+// 6/17/2019 TinLM Create getTopFlashSaleProduct
 @Repository
 public class FlashSaleProductDAO {
     Connection con;
@@ -63,4 +63,35 @@ public class FlashSaleProductDAO {
         }
         return result;
     }
+
+    // 6/17/2019 TinLM Create
+    // Get top 10 hot flash sale product
+    public List<FlashSaleProduct> getFSPByStoreId(int storeId) throws SQLException, ClassNotFoundException {
+        List<FlashSaleProduct> result = new ArrayList<>();
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql = "select fsp.FlashSaleProductId, fsp.Quantity from Store s, StoreProduct sp, FlashSaleProduct fsp \n" +
+                        "where s.StoreId = sp.StoreId and sp.StoreProductId = fsp.StoreProductId\n" +
+                        " and s.StoreId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, storeId);
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    int flashSaleProductId = rs.getInt("FlashSaleProductId");
+                    int quantity = rs.getInt("Quantity");
+
+
+                    result.add(new FlashSaleProduct(flashSaleProductId, quantity));
+
+
+                }
+            }
+        }finally {
+            closeConnection();
+        }
+        return result;
+    }
+
+
 }

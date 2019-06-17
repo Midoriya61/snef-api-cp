@@ -19,6 +19,11 @@ public class FlashSaleProduct {
     public FlashSaleProduct() {
     }
 
+    public FlashSaleProduct(int flashSaleProductId, int quantity) {
+        this.flashSaleProductId = flashSaleProductId;
+        this.quantity = quantity;
+    }
+
     public FlashSaleProduct(int flashSaleProductId, int quantity, int storeProductId, String productName, int spQuantity, float price, int storeId, int discount, Date endDate) {
         this.flashSaleProductId = flashSaleProductId;
         this.quantity = quantity;

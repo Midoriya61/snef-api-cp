@@ -197,9 +197,7 @@ public class ProductFlashSalesDAO implements Serializable {
                     float price = rs.getFloat("Price");
                     String itemName = rs.getString("StoreProductName");
                     String image = rs.getString("Picture");
-
                     searchValue= new ProductFlashSales(fsId, discount, startdate, enddate, quantity, productitemid, accountid, price, itemName, image);
-
                 }
                 return searchValue;
             }
