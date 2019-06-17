@@ -21,6 +21,7 @@ public class ProductService {
     @RequestMapping(method = RequestMethod.GET, path = "/products", produces = "application/json")
     public List<Product> getAllPro() throws SQLException, ClassNotFoundException {
         List<Product> getList = proDao.loadAllProduct();
+        System.out.println(getList.size());
         return getList;
     }
 

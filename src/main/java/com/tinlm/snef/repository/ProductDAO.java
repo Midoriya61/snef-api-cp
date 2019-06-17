@@ -79,7 +79,7 @@ public class ProductDAO implements Serializable {
                 while (rs.next()){
                     int proId = rs.getInt("ProductId");
                     String productname = rs.getString("ProductName");
-                    String pic = rs.getString("Picture");
+                    String pic = rs.getString("ImageSrc");
                     int cate = rs.getInt("CategoriesId");
 
                     Product dto = new Product(proId, productname, pic, cate);
