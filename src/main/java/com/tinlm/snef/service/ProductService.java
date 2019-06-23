@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 public class ProductService {
 
-    @Autowired
+
     ProductDAO proDao = new ProductDAO();
 
     /*

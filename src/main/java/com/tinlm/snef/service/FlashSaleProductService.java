@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 public class FlashSaleProductService {
 
-    @Autowired
+
     FlashSaleProductDAO flashSaleProductDAO = new FlashSaleProductDAO();
 
 

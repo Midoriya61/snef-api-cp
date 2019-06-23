@@ -15,7 +15,7 @@ import java.sql.SQLException;
 @RestController
 public class CategoriesService {
 
-    @Autowired
+
     CategoriesDAO categoriesDAO = new CategoriesDAO();
 
 

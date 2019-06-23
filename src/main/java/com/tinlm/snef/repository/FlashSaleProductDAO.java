@@ -10,23 +10,13 @@ import java.util.List;
 
 // 6/17/2019 TinLM Create class
 // 6/17/2019 TinLM Create getTopFlashSaleProduct
-@Repository
-public class FlashSaleProductDAO {
-    Connection con;
-    PreparedStatement stm;
-    ResultSet rs;
 
-    private void closeConnection() throws SQLException {
-        if (rs != null){
-            rs.close();
-        }
-        if (stm !=null){
-            stm.close();
-        }
-        if (con!=null){
-            con.close();
-        }
-    }
+public class FlashSaleProductDAO {
+    private Connection con;
+    private PreparedStatement stm;
+    private ResultSet rs;
+
+
     // 6/17/2019 TinLM Create
     // Get top 10 hot flash sale product
     public List<FlashSaleProduct> getTopFlashSaleProduct() throws SQLException, ClassNotFoundException {
@@ -59,7 +49,7 @@ public class FlashSaleProductDAO {
                 }
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs, stm, con);
         }
         return result;
     }
@@ -80,15 +70,11 @@ public class FlashSaleProductDAO {
                 while (rs.next()){
                     int flashSaleProductId = rs.getInt("FlashSaleProductId");
                     int quantity = rs.getInt("Quantity");
-
-
                     result.add(new FlashSaleProduct(flashSaleProductId, quantity));
-
-
                 }
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs, stm, con);
         }
         return result;
     }

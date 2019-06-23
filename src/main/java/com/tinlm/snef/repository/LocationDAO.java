@@ -15,9 +15,9 @@ import java.util.List;
 // 6/17/2019 TinLM Create getLocatinById
 @Repository
 public class LocationDAO {
-    Connection con;
-    PreparedStatement stm;
-    ResultSet rs;
+    private Connection con;
+    private PreparedStatement stm;
+    private ResultSet rs;
 
     private void closeConnection() throws SQLException {
         if (rs != null){

@@ -13,9 +13,9 @@ import java.util.List;
 
 public class StoreDAO {
 
-    Connection con;
-    PreparedStatement stm;
-    ResultSet rs;
+    private Connection con;
+    private PreparedStatement stm;
+    private ResultSet rs;
 
     private void closeConnection() throws SQLException {
         if (rs != null){
@@ -35,19 +35,19 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select StoreId, AccountId, LocationId, RatingPoint, Avatar, OpenHour, CloseHour from Store";
+                String sql = "select StoreId, StoreName,StoreManagerId, LocationId, RatingPoint, Avatar, OpenHour, CloseHour from Store";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
                     int storeId = rs.getInt("StoreId");
-                    int accountId = rs.getInt("AccountId");
+                    int storeManagerId = rs.getInt("StoreManagerId");
                     int locationId = rs.getInt("LocationId");
-
+                    String storeName = rs.getString("StoreName");
                     String avatar = rs.getString("Avatar");
                     String openHour = rs.getString("OpenHour");
                     String closeHour = rs.getString("CloseHour");
 
-                    result.add(new Store(storeId, accountId, locationId, avatar, openHour, closeHour));
+                    result.add(new Store(storeId, storeManagerId, storeName,  locationId, avatar, openHour, closeHour));
 
                 }
             }

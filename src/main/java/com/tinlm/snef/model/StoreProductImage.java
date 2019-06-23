@@ -1,7 +1,6 @@
 package com.tinlm.snef.model;
 
-public class FlashSaleProductImage {
-
+public class StoreProductImage {
     private int fspId;
     private String imageSrc;
     private int flashSaleProductId;
@@ -30,12 +29,13 @@ public class FlashSaleProductImage {
         this.flashSaleProductId = flashSaleProductId;
     }
 
-    public FlashSaleProductImage(int fspId, String imageSrc, int flashSaleProductId) {
+    public StoreProductImage(int fspId, String imageSrc, int flashSaleProductId) {
         this.fspId = fspId;
         this.imageSrc = imageSrc;
         this.flashSaleProductId = flashSaleProductId;
     }
 
-    public FlashSaleProductImage() {
+    public StoreProductImage() {
     }
+
 }

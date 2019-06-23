@@ -15,23 +15,10 @@ import java.util.ArrayList;
 
 // 6/17/2019 TinLM Create class
 // 6/17/2019 TinLM Create getAllCategories
-@Repository
 public class CategoriesDAO {
-    Connection con;
-    PreparedStatement stm;
-    ResultSet rs;
-
-    private void closeConnection() throws SQLException {
-        if (rs != null){
-            rs.close();
-        }
-        if (stm !=null){
-            stm.close();
-        }
-        if (con!=null){
-            con.close();
-        }
-    }
+    private Connection con;
+    private PreparedStatement stm;
+    private ResultSet rs;
 
     // 6/17/2019 TinLM Create
     // Get all categogies
@@ -54,7 +41,7 @@ public class CategoriesDAO {
                 }
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm, con);
         }
         return result;
     }

@@ -1,7 +1,7 @@
 package com.tinlm.snef.repository;
 
 import com.tinlm.snef.connection.MyConnection;
-import com.tinlm.snef.model.FlashSaleProductImage;
+import com.tinlm.snef.model.StoreProductImage;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -11,15 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-// 6/17/2019 TinLM Create class
-// 6/17/2019 TinLM Create getOneFlashSaleProductImageById
-// 6/17/2019 TinLM Create getFlashSaleProductImageById
+// 6/21/2019 TinLM Create class
+// 6/21/2019 TinLM Create getOneStoreProductImageById
+// 6/21/2019 TinLM Create getStoreProductImageById
 @Repository
-public class FlashSaleProductImageDAO {
+public class StoreProductImageDAO {
 
-    Connection con;
-    PreparedStatement stm;
-    ResultSet rs;
+    private Connection con;
+    private PreparedStatement stm;
+    private ResultSet rs;
 
     private void closeConnection() throws SQLException {
         if (rs != null){
@@ -33,23 +33,21 @@ public class FlashSaleProductImageDAO {
         }
     }
 
-    // 6/17/2019 TinLM Create
-    // Get getOneFlashSaleProductImageById
-    public FlashSaleProductImage getOneFlashSaleProductImageById(int flashSaleProductId) throws SQLException, ClassNotFoundException {
-        FlashSaleProductImage result =null;
+    // 6/21/2019 TinLM Create
+    // Get getOneStoreProductImageById
+    public StoreProductImage getOneStoreProductImageById(int storeProductId) throws SQLException, ClassNotFoundException {
+        StoreProductImage result =null;
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select FSPId, ImageSrc from FlashSaleProductImage where FlashSaleProductId = ?";
+                String sql = "select FSPId, ImageSrc from StoreProductImage where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, flashSaleProductId);
+                stm.setInt(1, storeProductId);
                 rs = stm.executeQuery();
                 if (rs.next()){
                     int fspId = rs.getInt("FSPId");
                     String imageSrc = rs.getString("ImageSrc");
-
-
-                    result  =  new FlashSaleProductImage(fspId, imageSrc, flashSaleProductId);
+                    result  =  new StoreProductImage(fspId, imageSrc, storeProductId);
 
                 }
             }
@@ -59,22 +57,22 @@ public class FlashSaleProductImageDAO {
         return result;
     }
 
-    // 6/17/2019 TinLM Create
-    // Get getFlashSaleProductImageById
-    public List<FlashSaleProductImage> getFlashSaleProductImageById(int flashSaleProductId) throws SQLException, ClassNotFoundException {
-        List<FlashSaleProductImage> result =new ArrayList<>();
+    // 6/21/2019 TinLM Create
+    // Get getStoreProductImageById
+    public List<StoreProductImage> getStoreProductImageById(int storeProductId) throws SQLException, ClassNotFoundException {
+        List<StoreProductImage> result =new ArrayList<>();
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select FSPId, ImageSrc from FlashSaleProductImage where FlashSaleProductId = ?";
+                String sql = "select FSPId, ImageSrc from StoreProductImage where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, flashSaleProductId);
+                stm.setInt(1, storeProductId);
                 rs = stm.executeQuery();
                 while (rs.next()){
                     int fspId = rs.getInt("FSPId");
                     String imageSrc = rs.getString("ImageSrc");
 
-                    result.add(new FlashSaleProductImage(fspId, imageSrc, flashSaleProductId));
+                    result.add(new StoreProductImage(fspId, imageSrc, storeProductId));
 
                 }
             }
@@ -83,4 +81,5 @@ public class FlashSaleProductImageDAO {
         }
         return result;
     }
+
 }

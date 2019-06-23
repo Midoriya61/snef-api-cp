@@ -12,12 +12,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+
 public class ProductDAO implements Serializable {
 
-    Connection con;
-    PreparedStatement stm;
-    ResultSet rs;
+    private Connection con;
+    private PreparedStatement stm;
+    private ResultSet rs;
 
     private void closeConnection() throws SQLException {
         if (rs != null){

@@ -22,9 +22,10 @@ public class Store {
     public Store() {
     }
 
-    public Store(int storeId, int accountId, int locationId, String avatar, String openHour, String closeHour) {
+    public Store(int storeId, int accountId, String storeName, int locationId, String avatar, String openHour, String closeHour) {
         this.storeId = storeId;
         this.accountId = accountId;
+        this.storeName = storeName;
         this.locationId = locationId;
         this.avatar = avatar;
         this.openHour = openHour;
