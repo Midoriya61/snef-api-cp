@@ -19,9 +19,10 @@ public class FlashSaleProduct {
     public FlashSaleProduct() {
     }
 
-    public FlashSaleProduct(int flashSaleProductId, int quantity) {
+    public FlashSaleProduct(int flashSaleProductId, int quantity, int storeProductId) {
         this.flashSaleProductId = flashSaleProductId;
         this.quantity = quantity;
+        this.storeProductId = storeProductId;
     }
 
     public FlashSaleProduct(int flashSaleProductId, int quantity, int storeProductId, String productName, int spQuantity, float price, int storeId, int discount, Date endDate) {
