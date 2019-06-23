@@ -7,9 +7,9 @@ public class MyConnection implements Serializable {
     public static Connection myConnection() throws SQLException, ClassNotFoundException{
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 //        String url = "jdbc:sqlserver://localhost:1433;databaseName=SNEF_DEMO";
-//        Connection con = DriverManager.getConnection(url, "sa", "chaulenba");
         String url = "jdbc:sqlserver://localhost:1433;databaseName=SNEF_Part2";
-        Connection con = DriverManager.getConnection(url, "sa", "chaulenba");
+        Connection con = DriverManager.getConnection(url, "sa", "trungnhan137");
+//        Connection con = DriverManager.getConnection(url, "sa", "chaulenba");
         return con;
     }
 
