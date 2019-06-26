@@ -32,6 +32,19 @@ public class Store {
         this.closeHour = closeHour;
     }
 
+    public Store(int storeId, int accountId, String storeName, int locationId, String avatar, String openHour, String closeHour, float ratingPoint) {
+        this.storeId = storeId;
+        this.accountId = accountId;
+        this.storeName = storeName;
+        this.locationId = locationId;
+        this.avatar = avatar;
+        this.openHour = openHour;
+        this.closeHour = closeHour;
+        this.ratingPoint = ratingPoint;
+    }
+
+
+
     public int getStoreId() {
         return storeId;
     }

@@ -57,4 +57,35 @@ public class StoreDAO {
         return result;
     }
 
+    public Store getStoreById(int storeId) throws SQLException, ClassNotFoundException {
+
+        Store result = new Store();
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql = "select StoreName, LocationId, RatingPoint, Avatar, OpenHour, CloseHour, StoreManagerId" +
+                        " from Store" +
+                        " where StoreId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, storeId);
+                rs = stm.executeQuery();
+                while (rs.next()){
+
+                    int storeManagerId = rs.getInt("StoreManagerId");
+                    int locationId = rs.getInt("LocationId");
+                    String storeName = rs.getString("StoreName");
+                    String avatar = rs.getString("Avatar");
+                    String openHour = rs.getString("OpenHour");
+                    String closeHour = rs.getString("CloseHour");
+                    float ratingPoint = rs.getFloat("RatingPoint");
+                    result = new Store(storeId, storeManagerId, storeName,  locationId, avatar, openHour, closeHour, ratingPoint);
+
+                }
+            }
+        }finally {
+            closeConnection();
+        }
+        return result;
+    }
+
 }
