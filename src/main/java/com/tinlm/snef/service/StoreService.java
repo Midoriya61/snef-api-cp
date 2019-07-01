@@ -17,7 +17,7 @@ public class StoreService {
     StoreDAO storeDAO = new StoreDAO();
 
     // 6/17/2019 TinLM Create getAllStores
-    @RequestMapping(method = RequestMethod.GET, path = "/store", produces = "application/json")
+//    @RequestMapping(method = RequestMethod.GET, path = "/store", produces = "application/json")
     public List<Store> getAllStores() throws SQLException, ClassNotFoundException {
         List<Store> getList = storeDAO.getAllStore();
         return getList;

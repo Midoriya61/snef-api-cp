@@ -1,35 +1,29 @@
 package com.tinlm.snef.model;
 
-import java.util.Date;
-
 public class Store {
     private int storeId;
-    private int accountId;
     private String storeName;
+    private int storeManagerId;
     private int locationId;
     private float ratingPoint;
     private String avatar;
     private String openHour;
     private String closeHour;
-
-    private String address;
-    private String district;
-    private String ward;
-    private String city;
-    private String country;
-
+    private boolean status;
 
     public Store() {
     }
 
-    public Store(int storeId, int accountId, String storeName, int locationId, String avatar, String openHour, String closeHour) {
+    public Store(int storeId, String storeName, int storeManagerId, int locationId, float ratingPoint, String avatar, String openHour, String closeHour, boolean status) {
         this.storeId = storeId;
-        this.accountId = accountId;
         this.storeName = storeName;
+        this.storeManagerId = storeManagerId;
         this.locationId = locationId;
+        this.ratingPoint = ratingPoint;
         this.avatar = avatar;
         this.openHour = openHour;
         this.closeHour = closeHour;
+        this.status = status;
     }
 
     public int getStoreId() {
@@ -40,20 +34,20 @@ public class Store {
         this.storeId = storeId;
     }
 
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
-
     public String getStoreName() {
         return storeName;
     }
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+
+    public int getStoreManagerId() {
+        return storeManagerId;
+    }
+
+    public void setStoreManagerId(int storeManagerId) {
+        this.storeManagerId = storeManagerId;
     }
 
     public int getLocationId() {
@@ -96,43 +90,11 @@ public class Store {
         this.closeHour = closeHour;
     }
 
-    public String getAddress() {
-        return address;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getWard() {
-        return ward;
-    }
-
-    public void setWard(String ward) {
-        this.ward = ward;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

@@ -31,30 +31,37 @@ public class StoreDAO {
 
     public List<Store> getAllStore() throws SQLException, ClassNotFoundException {
 
-        List<Store> result = new ArrayList<>();
+        List<Store> result = null;
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select StoreId, StoreName,StoreManagerId, LocationId, RatingPoint, Avatar, OpenHour, CloseHour from Store";
+                String sql = "SELECT StoreId, StoreName,StoreManagerId, LocationId, RatingPoint, Avatar, OpenHour, CloseHour, Status " +
+                        "FROM Store";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
                     int storeId = rs.getInt("StoreId");
-                    int storeManagerId = rs.getInt("StoreManagerId");
-                    int locationId = rs.getInt("LocationId");
                     String storeName = rs.getString("StoreName");
+                    int storeManagerId = rs.getInt("StoreManagerId");
+                    int loId = rs.getInt("LocationId");
+                    float rating = rs.getFloat("RatingPoint");
                     String avatar = rs.getString("Avatar");
-                    String openHour = rs.getString("OpenHour");
-                    String closeHour = rs.getString("CloseHour");
+                    String open = rs.getString("OpenHour");
+                    String close =rs.getString("CloseHour");
+                    boolean status = rs.getBoolean("Status");
 
-                    result.add(new Store(storeId, storeManagerId, storeName,  locationId, avatar, openHour, closeHour));
-
+                    Store dto = new Store(storeId, storeName, storeManagerId, loId, rating, avatar, open, close, status);
+                    if (result == null){
+                        result = new ArrayList<>();
+                    }
+                    result.add(dto);
                 }
+                return  result;
             }
         }finally {
             closeConnection();
         }
-        return result;
+        return null;
     }
 
 }
