@@ -42,4 +42,10 @@ public class FlashSaleProductService {
         List<FlashSaleProduct> result = flashSaleProductDAO.getAllFSP();
         return result;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/flashSaleProduct/getFSPByCategoryId/{categoryId}", produces = "application/json")
+    public List<FlashSaleProduct> getFSPByCategoriesId(@PathVariable("categoryId") int categoryId) throws SQLException, ClassNotFoundException{
+        List<FlashSaleProduct> result = flashSaleProductDAO.getFSPByCategoriesId(categoryId);        ;
+        return result;
+    }
 }

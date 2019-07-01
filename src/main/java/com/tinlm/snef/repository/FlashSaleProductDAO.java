@@ -121,4 +121,39 @@ public class FlashSaleProductDAO {
         return result;
     }
 
+    public List<FlashSaleProduct> getFSPByCategoriesId(int categoryId) throws SQLException, ClassNotFoundException {
+        List<FlashSaleProduct> result = new ArrayList<>();
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql = "select fs.StoreId, fs.Discount , fs.EndDate, fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price  " +
+                        "from Store s, StoreProduct sp, FlashSaleProduct fsp , Product p, Categories c,  FlashSales fs  \n" +
+                        "where s.StoreId = sp.StoreId and sp.StoreProductId = fsp.StoreProductId \n" +
+                        " and p.CategoriesId = c.CategoriesId and p.ProductId = sp.ProductId and fs.FlashSalesId = fsp.FlashSalesId " +
+                        " and c.CategoriesId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, categoryId);
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    int flashSaleProductId = rs.getInt("FlashSaleProductId");
+                    int quantity = rs.getInt("Quantity");
+                    int storeProductId = rs.getInt("StoreProductId");
+                    int spQuantity = rs.getInt("SpQuantity");
+                    int storeId = rs.getInt("StoreId");
+                    int discount = rs.getInt("Discount");
+                    float price = rs.getFloat("Price");
+                    Date endDate = rs.getDate("EndDate");
+                    String productName = rs.getString("ProductName");
+
+                    result.add(new FlashSaleProduct(flashSaleProductId,quantity,storeProductId,
+                            productName,spQuantity,price, storeId,discount,endDate
+                    ));
+                }
+            }
+        }finally {
+            MyConnection.closeConnection(rs, stm, con);
+        }
+        return result;
+    }
+
 }
