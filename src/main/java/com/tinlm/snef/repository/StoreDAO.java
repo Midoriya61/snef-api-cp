@@ -64,7 +64,7 @@ public class StoreDAO {
             con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select StoreName, LocationId, RatingPoint, Avatar, OpenHour, CloseHour, StoreManagerId" +
-                        " from Store" +
+                        " from store" +
                         " where StoreId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeId);
@@ -83,7 +83,7 @@ public class StoreDAO {
                 }
             }
         }finally {
-            closeConnection();
+                closeConnection();
         }
         return result;
     }

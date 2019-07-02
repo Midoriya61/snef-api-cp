@@ -5,11 +5,22 @@ import java.sql.*;
 
 public class MyConnection implements Serializable {
     public static Connection myConnection() throws SQLException, ClassNotFoundException{
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        Class.forName("com.mysql.jdbc.Driver");
 //        String url = "jdbc:sqlserver://localhost:1433;databaseName=SNEF_DEMO";
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=SNEF_Part2";
+        String url = "jdbc:mysql://snef.cvkbe5tc6xkf.ap-southeast-1.rds.amazonaws.com:3306/snef_part2";
 //        Connection con = DriverManager.getConnection(url, "sa", "trungnhan137");
-        Connection con = DriverManager.getConnection(url, "sa", "chaulenba");
+
+//        String dbName = System.getProperty("SNEF_Part2");
+//        String userName = System.getProperty("TinLM");
+//        String password = System.getProperty("Chaulen3");
+//        String hostname = System.getProperty("snef.cvkbe5tc6xkf.ap-southeast-1.rds.amazonaws.com");
+//        String port = System.getProperty("3306");
+//        String jdbcUrl = "jdbc:mysql://" + hostname + ":" +
+//                port + "/" + dbName + "?user=" + userName + "&password=" + password;
+
+        Connection con = DriverManager.getConnection(url, "TinLM", "Chaulen3");
+//        Connection con = DriverManager.getConnection(jdbcUrl);
         return con;
     }
 
