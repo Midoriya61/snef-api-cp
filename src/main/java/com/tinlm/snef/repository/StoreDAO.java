@@ -64,7 +64,7 @@ public class StoreDAO {
             con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select StoreName, LocationId, RatingPoint, Avatar, OpenHour, CloseHour, StoreManagerId" +
-                        " from store" +
+                        " from Store" +
                         " where StoreId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeId);

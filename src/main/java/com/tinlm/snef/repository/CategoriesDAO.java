@@ -27,7 +27,7 @@ public class CategoriesDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select CategoriesId, CategoryName, ImageSrc from categories";
+                String sql = "select CategoriesId, CategoryName, ImageSrc from Categories";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){

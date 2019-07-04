@@ -21,7 +21,7 @@ public class ConfigurationDAO {
         String result = "";
         try {
             con = MyConnection.myConnection();
-            String sql = "select configurationValue from Configuration where configurationName = ?";
+            String sql = "select configurationValue from configuration where configurationName = ?";
             stm = con.prepareStatement(sql);
             stm.setString(1, configurationName);
             rs = stm.executeQuery();

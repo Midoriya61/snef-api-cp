@@ -18,6 +18,8 @@ public class StoreProductDAO {
     private PreparedStatement stm;
     private ResultSet rs;
 
+
+
     public int getQuantityById(int storeProductId) throws SQLException, ClassNotFoundException {
         int result = 0;
         try {
@@ -29,6 +31,25 @@ public class StoreProductDAO {
                 rs = stm.executeQuery();
                 if (rs.next()){
                     result = rs.getInt("Quantity");
+                }
+            }
+        }finally {
+            MyConnection.closeConnection(rs,stm, con);
+        }
+        return result;
+    }
+
+    public String getDescriptionById(int storeProductId) throws SQLException, ClassNotFoundException {
+        String result = "";
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql = "select Description from StoreProduct where StoreProductId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, storeProductId);
+                rs = stm.executeQuery();
+                if (rs.next()){
+                    result = rs.getString("Description");
                 }
             }
         }finally {

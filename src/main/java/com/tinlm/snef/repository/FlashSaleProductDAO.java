@@ -25,11 +25,11 @@ public class FlashSaleProductDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select top 10 fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ,\n" +
+                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ,\n" +
                         "fs.StoreId, fs.Discount , fs.EndDate\n" +
-                        " from FlashSaleProduct fsp, StoreProduct sp, FlashSales fs \n" +
+                        " from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs \n" +
                         "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId \n" +
-                        "order by fs.Discount desc";
+                        "order by fs.Discount desc limit 10";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
@@ -63,7 +63,7 @@ public class FlashSaleProductDAO {
             con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select fsp.FlashSaleProductId, fsp.Quantity , fsp.StoreProductId " +
-                        "from Store s, StoreProduct sp, FlashSaleProduct fsp \n" +
+                        "from Store s, StoreProduct sp, FlashsaleProduct fsp \n" +
                         "where s.StoreId = sp.StoreId and sp.StoreProductId = fsp.StoreProductId\n" +
                         " and s.StoreId = ?";
                 stm = con.prepareStatement(sql);
@@ -88,10 +88,10 @@ public class FlashSaleProductDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select top 10 fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ,\n" +
+                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ,\n" +
                         "fs.StoreId, fs.Discount , fs.EndDate\n" +
-                        " from FlashSaleProduct fsp, StoreProduct sp, FlashSales fs \n" +
-                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId \n";
+                        " from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs \n" +
+                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId limit 10\n";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
@@ -127,7 +127,7 @@ public class FlashSaleProductDAO {
             con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select fs.StoreId, fs.Discount , fs.EndDate, fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price  " +
-                        "from Store s, StoreProduct sp, FlashSaleProduct fsp , Product p, Categories c,  FlashSales fs  \n" +
+                        "from Store s, StoreProduct sp, FlashsaleProduct fsp , Product p, Categories c,  Flashsales fs  \n" +
                         "where s.StoreId = sp.StoreId and sp.StoreProductId = fsp.StoreProductId \n" +
                         " and p.CategoriesId = c.CategoriesId and p.ProductId = sp.ProductId and fs.FlashSalesId = fsp.FlashSalesId " +
                         " and c.CategoriesId = ?";

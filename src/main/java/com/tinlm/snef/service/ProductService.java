@@ -63,7 +63,6 @@ public class ProductService {
         String pic = product.getImageSrc();
         int cate = product.getCategoriesId();
         boolean rs = proDao.updateProById(proId,proName, pic, cate);
-
         return true;
     }
 

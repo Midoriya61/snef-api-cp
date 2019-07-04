@@ -11,13 +11,21 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
+@RequestMapping(path = "/storeProduct")
 public class StoreProductService {
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/storeProduct/getQuantityById/{storeProductId}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/getQuantityById/{storeProductId}", produces = "application/json")
     public int getProName(@PathVariable("storeProductId") int storeProductId) throws SQLException, ClassNotFoundException{
         StoreProductDAO storeProductDAO = new StoreProductDAO();
         int result = storeProductDAO.getQuantityById(storeProductId);        ;
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getDesById/{storeProductId}", produces = "application/json")
+    public String getDesById(@PathVariable("storeProductId") int storeProductId) throws SQLException, ClassNotFoundException{
+        StoreProductDAO storeProductDAO = new StoreProductDAO();
+        String result = storeProductDAO.getDescriptionById(storeProductId);        ;
         return result;
     }
 }

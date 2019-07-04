@@ -37,7 +37,7 @@ public class LocationDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select l.[Address], d.DistrictName, w.WardName, c.CityName, coun.CountryName from Location l, District d, Ward w, City c, Country coun \n" +
+                String sql = "select l.Address, d.DistrictName, w.WardName, c.CityName, coun.CountryName from Location l, District d, Ward w, City c, Country coun \n" +
                         "where l.DistrictId = d.DistrictId and d.WardId = w.WardId and \n" +
                         "w.CityId = c.CityId and c.CountryId = coun.CountryId \n" +
                         "and l.LocationId = ?";
