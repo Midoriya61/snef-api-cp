@@ -43,7 +43,7 @@ public class CustomerDAO implements AccountDAO {
             if (con !=null){
                 String sql = "select acc.Username,acc.FirstName, acc.LastName, acc.Phone, acc.Email, acc.Avatar, cus.CustomerId, acc.IsActive " +
                         " from Account acc, Customer cus " +
-                        "where acc.AccountId = cus.AccountId and acc.UserName = ? and acc.[Password] = ?";
+                        "where acc.AccountId = cus.AccountId and acc.UserName = ? and acc.Password = ?";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, username);
                 stm.setString(2, password);
