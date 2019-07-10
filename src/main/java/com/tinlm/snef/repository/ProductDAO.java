@@ -155,8 +155,28 @@ public class ProductDAO implements Serializable {
     }
 
 
-    public List<String> getListNameProduct() {
-        List<String> result = null;
+    public List<Product> getListNameProduct() throws SQLException, ClassNotFoundException {
+        List<Product> result = null;
+        try {
+            con = MyConnection.myConnection();
+            if (con != null){
+                String sql ="select ProductId, ProductName from Product";
+                stm = con.prepareStatement(sql);
+
+                rs = stm.executeQuery();
+                while ( rs.next() ) {
+                    if(result == null)
+                        result = new ArrayList<>();
+                    Product product = new Product();
+                    product.setProductId(rs.getInt(1));
+                    product.setProductName(rs.getString(2));
+                    result.add(product);
+                }
+            }
+        }finally {
+            closeConnection();
+        }
+
         return result;
     }
 }

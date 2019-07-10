@@ -29,12 +29,12 @@ public class StoreProductImageDAO {
         try {
             Connection con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select FSPId, ImageSrc from StoreProductImage where StoreProductId = ?";
+                String sql = "select SPIId, ImageSrc from StoreProductImage where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeProductId);
                 rs = stm.executeQuery();
                 if (rs.next()){
-                    int fspId = rs.getInt("FSPId");
+                    int fspId = rs.getInt("SPIId");
                     String imageSrc = rs.getString("ImageSrc");
                     result  =  new StoreProductImage(fspId, imageSrc, storeProductId);
 
@@ -55,12 +55,12 @@ public class StoreProductImageDAO {
         try {
             Connection con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select FSPId, ImageSrc from StoreProductImage where StoreProductId = ?";
+                String sql = "select SPIId, ImageSrc from StoreProductImage where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeProductId);
                 rs = stm.executeQuery();
                 while (rs.next()){
-                    int fspId = rs.getInt("FSPId");
+                    int fspId = rs.getInt("SPIId");
                     String imageSrc = rs.getString("ImageSrc");
 
                     result.add(new StoreProductImage(fspId, imageSrc, storeProductId));

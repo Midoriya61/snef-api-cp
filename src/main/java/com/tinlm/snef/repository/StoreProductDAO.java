@@ -19,7 +19,6 @@ public class StoreProductDAO {
     private ResultSet rs;
 
 
-
     public int getQuantityById(int storeProductId) throws SQLException, ClassNotFoundException {
         int result = 0;
         try {

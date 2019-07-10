@@ -1,16 +1,16 @@
 package com.tinlm.snef.model;
 
 public class StoreProductImage {
-    private int fspId;
+    private int spiId;
     private String imageSrc;
     private int storeProductId;
 
-    public int getFspId() {
-        return fspId;
+    public int getSpiId() {
+        return spiId;
     }
 
-    public void setFspId(int fspId) {
-        this.fspId = fspId;
+    public void setSpiId(int spiId) {
+        this.spiId = spiId;
     }
 
     public String getImageSrc() {
@@ -29,8 +29,8 @@ public class StoreProductImage {
         this.storeProductId = storeProductId;
     }
 
-    public StoreProductImage(int fspId, String imageSrc, int storeProductId) {
-        this.fspId = fspId;
+    public StoreProductImage(int fspId, String imageSrc, int spiId) {
+        this.spiId = spiId;
         this.imageSrc = imageSrc;
         this.storeProductId = storeProductId;
     }

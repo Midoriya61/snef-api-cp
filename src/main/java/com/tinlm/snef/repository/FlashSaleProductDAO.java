@@ -197,4 +197,58 @@ public class FlashSaleProductDAO {
         return result;
     }
 
+
+    // get flash sale product by search name
+    public List<FlashSaleProduct> getFSPByName(String searchName) {
+        List<FlashSaleProduct> result = new ArrayList<>();
+
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            Connection con = MyConnection.getConnection();
+            if (con !=null){
+                String[] listSearchName = searchName.split(" ");
+                //change name for fit dbms
+                String searchNameProduct = "";
+
+                for (int i = 0; i < listSearchName.length; i++) {
+                    if (i == 0) {
+                        searchNameProduct = "sp.ProductName like N'%" + listSearchName[0] + "%' ";
+                    } else {
+                        searchNameProduct = searchNameProduct + "AND sp.ProductName like N'%" + listSearchName[i] + "%' ";
+                    }
+                }
+
+                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ,\n" +
+                        "fs.StoreId, fs.Discount , fs.EndDate\n" +
+                        " from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs \n" +
+                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId and " +
+                        searchNameProduct +
+                        "limit 30";
+                stm = con.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    int flashSaleProductId = rs.getInt(1);
+                    int quantity = rs.getInt(2);
+                    int storeProductId = rs.getInt(3);
+                    int spQuantity = rs.getInt(5);
+                    int storeId = rs.getInt(7);
+                    int discount = rs.getInt(8 );
+                    float price = rs.getFloat(6);
+                    Date endDate = rs.getDate(9);
+                    String productName = rs.getString(4);
+                    result.add(new FlashSaleProduct(flashSaleProductId,quantity,storeProductId,
+                            productName,spQuantity,price, storeId,discount,endDate
+                    ));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MyConnection.closeConnection(rs, stm);
+        }
+        return result;
+    }
+
 }
