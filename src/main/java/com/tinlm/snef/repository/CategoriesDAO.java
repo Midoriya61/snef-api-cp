@@ -16,16 +16,17 @@ import java.util.ArrayList;
 // 6/17/2019 TinLM Create class
 // 6/17/2019 TinLM Create getAllCategories
 public class CategoriesDAO {
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
+
 
     // 6/17/2019 TinLM Create
     // Get all categogies
     public List<Categories> getAllCategories() throws SQLException, ClassNotFoundException {
         List<Categories> result = new ArrayList<>();
+        Connection con =null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
-            con = MyConnection.myConnection();
+            con = MyConnection.getConnection();
             if (con !=null){
                 String sql = "select CategoriesId, CategoryName, ImageSrc from Categories";
                 stm = con.prepareStatement(sql);
@@ -41,7 +42,7 @@ public class CategoriesDAO {
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs,stm, con);
+            MyConnection.closeConnection(rs,stm);
         }
         return result;
     }

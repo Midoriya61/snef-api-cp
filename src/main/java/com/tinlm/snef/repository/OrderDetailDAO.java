@@ -15,7 +15,7 @@ public class OrderDetailDAO {
     public int getQuantityByFSPId(int flashsaleProductId) throws SQLException, ClassNotFoundException {
         int result = 0;
         try {
-            con = MyConnection.myConnection();
+            con = MyConnection.getConnection();
             if (con !=null){
                 String sql = "select SUM(Quantity) as TotalQuantity from OrderDetail where FlashSaleProductId = ?";
                 stm = con.prepareStatement(sql);
@@ -26,7 +26,7 @@ public class OrderDetailDAO {
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs,stm, con);
+            MyConnection.closeConnection(rs,stm);
         }
         return result;
     }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.*;
 
 public class MyConnection implements Serializable {
+    private static Connection connection;
     public static Connection myConnection() throws SQLException, ClassNotFoundException{
 //        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         Class.forName("com.mysql.jdbc.Driver");
@@ -24,16 +25,26 @@ public class MyConnection implements Serializable {
         return con;
     }
 
-    public static void closeConnection(ResultSet rs, PreparedStatement stm, Connection con) {
+
+    public static Connection getConnection() {
+        if( connection == null ) {
+            try {
+                connection = myConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return connection;
+    }
+    public static void closeConnection(ResultSet rs, PreparedStatement stm) {
         try {
             if (rs != null){
                 rs.close();
             }
             if (stm !=null){
                 stm.close();
-            }
-            if (con!=null){
-                con.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();

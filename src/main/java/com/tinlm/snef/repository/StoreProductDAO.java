@@ -23,7 +23,7 @@ public class StoreProductDAO {
     public int getQuantityById(int storeProductId) throws SQLException, ClassNotFoundException {
         int result = 0;
         try {
-            con = MyConnection.myConnection();
+            con = MyConnection.getConnection();
             if (con !=null){
                 String sql = "select Quantity from StoreProduct where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
@@ -34,7 +34,7 @@ public class StoreProductDAO {
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs,stm, con);
+            MyConnection.closeConnection(rs,stm);
         }
         return result;
     }
@@ -42,7 +42,7 @@ public class StoreProductDAO {
     public String getDescriptionById(int storeProductId) throws SQLException, ClassNotFoundException {
         String result = "";
         try {
-            con = MyConnection.myConnection();
+            con = MyConnection.getConnection();
             if (con !=null){
                 String sql = "select Description from StoreProduct where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
@@ -53,7 +53,7 @@ public class StoreProductDAO {
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs,stm, con);
+            MyConnection.closeConnection(rs,stm);
         }
         return result;
     }

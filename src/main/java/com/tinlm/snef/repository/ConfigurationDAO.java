@@ -20,7 +20,7 @@ public class ConfigurationDAO {
     public String getValueByName(String configurationName) {
         String result = "";
         try {
-            con = MyConnection.myConnection();
+            con = MyConnection.getConnection();
             String sql = "select configurationValue from configuration where configurationName = ?";
             stm = con.prepareStatement(sql);
             stm.setString(1, configurationName);
@@ -30,10 +30,8 @@ public class ConfigurationDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } finally {
-            MyConnection.closeConnection(rs, stm, con);
+            MyConnection.closeConnection(rs, stm);
         }
         return result;
     }
