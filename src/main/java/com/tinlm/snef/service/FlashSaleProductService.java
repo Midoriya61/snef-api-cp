@@ -16,6 +16,7 @@ import java.util.List;
 // 6/17/2019 TinLM Create getFSPByStoreId
 // 6/23/2019 TinLM Create getAllFSP
 @RestController
+@RequestMapping(path = "/flashSaleProduct")
 public class FlashSaleProductService {
 
 
@@ -23,29 +24,35 @@ public class FlashSaleProductService {
 
 
     // 6/17/2019 TinLM Create getTopFlashSaleProduct
-    @RequestMapping(method = RequestMethod.GET, path = "/flashSaleProduct/getHotFlashSaleProduct", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, path = "/getHotFlashSaleProduct", produces = "application/json")
     public List<FlashSaleProduct> getTopFlashSaleProduct() throws SQLException, ClassNotFoundException {
         List<FlashSaleProduct> result = flashSaleProductDAO.getTopFlashSaleProduct();
         return result;
     }
 
     // 6/17/2019 TinLM Create getFSPByStoreId
-    @RequestMapping(method = RequestMethod.GET, value = "/flashSaleProduct/getFSPByStoreId/{storeId}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/getFSPByStoreId/{storeId}", produces = "application/json")
     public List<FlashSaleProduct> getFSPByStoreId(@PathVariable("storeId") int storeId) throws SQLException, ClassNotFoundException{
         List<FlashSaleProduct> result = flashSaleProductDAO.getFSPByStoreId(storeId);        ;
         return result;
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, path = "/flashSaleProduct/getAllFSP", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, path = "/getAllFSP", produces = "application/json")
     public List<FlashSaleProduct> getAllFSP() throws SQLException, ClassNotFoundException {
         List<FlashSaleProduct> result = flashSaleProductDAO.getAllFSP();
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/flashSaleProduct/getFSPByCategoryId/{categoryId}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/getFSPByCategoryId/{categoryId}", produces = "application/json")
     public List<FlashSaleProduct> getFSPByCategoriesId(@PathVariable("categoryId") int categoryId) throws SQLException, ClassNotFoundException{
         List<FlashSaleProduct> result = flashSaleProductDAO.getFSPByCategoriesId(categoryId);        ;
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getRemaingQuantity/{fspId}", produces = "application/json")
+    public int getRemaingQuantity(@PathVariable("fspId") int fspId) throws SQLException, ClassNotFoundException{
+        int result = flashSaleProductDAO.getRemaingQuantity(fspId);        ;
         return result;
     }
 }

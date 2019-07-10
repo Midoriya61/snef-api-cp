@@ -16,13 +16,14 @@ import java.util.List;
 // 6/21/2019 TinLM Create getOneProductImageById
 // 6/21/2019 TinLM Create getProductImageById
 @RestController
+@RequestMapping(path = "/storeProductImage")
 public class StoreProductImageService {
 
     @Autowired
     StoreProductImageDAO storeProductImageDAO  = new StoreProductImageDAO();
 
     // 6/21/2019 TinLM Create
-    @RequestMapping(method = RequestMethod.GET, path = "/storeProductImage/getOneImage/{storeProductId}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, path = "/getOneImage/{storeProductId}", produces = "application/json")
     public StoreProductImage getOneProductImageById(@PathVariable("storeProductId") int storeProductId) throws SQLException, ClassNotFoundException {
 
         StoreProductImage searchValue =storeProductImageDAO.getOneStoreProductImageById(storeProductId);
@@ -31,7 +32,7 @@ public class StoreProductImageService {
     }
 
     // 6/21/2019 TinLM Create
-    @RequestMapping(method = RequestMethod.GET, path = "/storeProductImage/getImage/{storeProductId}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, path = "/getImage/{storeProductId}", produces = "application/json")
     public List<StoreProductImage> getProductImageById(@PathVariable("storeProductId") int storeProductId) throws SQLException, ClassNotFoundException {
 
         List<StoreProductImage> searchValue =storeProductImageDAO.getStoreProductImageById(storeProductId);

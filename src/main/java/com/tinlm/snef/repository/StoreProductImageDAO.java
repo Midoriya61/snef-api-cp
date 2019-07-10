@@ -17,28 +17,17 @@ import java.util.List;
 @Repository
 public class StoreProductImageDAO {
 
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
 
-    private void closeConnection() throws SQLException {
-        if (rs != null){
-            rs.close();
-        }
-        if (stm !=null){
-            stm.close();
-        }
-        if (con!=null){
-            con.close();
-        }
-    }
+
 
     // 6/21/2019 TinLM Create
     // Get getOneStoreProductImageById
     public StoreProductImage getOneStoreProductImageById(int storeProductId) throws SQLException, ClassNotFoundException {
         StoreProductImage result =null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
-            con = MyConnection.myConnection();
+            Connection con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select FSPId, ImageSrc from StoreProductImage where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
@@ -52,7 +41,7 @@ public class StoreProductImageDAO {
                 }
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs, stm);
         }
         return result;
     }
@@ -61,8 +50,10 @@ public class StoreProductImageDAO {
     // Get getStoreProductImageById
     public List<StoreProductImage> getStoreProductImageById(int storeProductId) throws SQLException, ClassNotFoundException {
         List<StoreProductImage> result =new ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
-            con = MyConnection.myConnection();
+            Connection con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select FSPId, ImageSrc from StoreProductImage where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
@@ -77,7 +68,7 @@ public class StoreProductImageDAO {
                 }
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs, stm);
         }
         return result;
     }

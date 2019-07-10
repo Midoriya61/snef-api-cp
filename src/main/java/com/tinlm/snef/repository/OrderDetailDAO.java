@@ -8,14 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OrderDetailDAO {
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
+
 
     public int getQuantityByFSPId(int flashsaleProductId) throws SQLException, ClassNotFoundException {
         int result = 0;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
-            con = MyConnection.getConnection();
+            Connection con = MyConnection.getConnection();
             if (con !=null){
                 String sql = "select SUM(Quantity) as TotalQuantity from OrderDetail where FlashSaleProductId = ?";
                 stm = con.prepareStatement(sql);

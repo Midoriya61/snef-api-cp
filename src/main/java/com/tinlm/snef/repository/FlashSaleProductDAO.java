@@ -136,13 +136,13 @@ public class FlashSaleProductDAO {
         return result;
     }
 
-    public List<FlashSaleProduct> getFSPByCategoriesId(int categoryId) throws SQLException, ClassNotFoundException {
+    public List<FlashSaleProduct> getFSPByCategoriesId(int categoryId) throws SQLException {
         List<FlashSaleProduct> result = new ArrayList<>();
-        Connection con = null;
+
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            con = MyConnection.getConnection();
+            Connection con = MyConnection.getConnection();
             if (con !=null){
                 String sql = "select fs.StoreId, fs.Discount , fs.EndDate, fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price  " +
                         "from Store s, StoreProduct sp, FlashsaleProduct fsp , Product p, Categories c,  Flashsales fs  \n" +
@@ -166,6 +166,29 @@ public class FlashSaleProductDAO {
                     result.add(new FlashSaleProduct(flashSaleProductId,quantity,storeProductId,
                             productName,spQuantity,price, storeId,discount,endDate
                     ));
+                }
+            }
+        }finally {
+            MyConnection.closeConnection(rs, stm);
+        }
+        return result;
+    }
+
+    public int getRemaingQuantity(int fspId)  throws SQLException {
+        int result = 0;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            Connection con = MyConnection.getConnection();
+            if (con !=null){
+                String sql = " select (fsp.Quantity - od.Quantity) as RemaingQuantity" +
+                        " from FlashsaleProduct fsp, OrderDetail as od where od.FlashSaleProductId = fsp.FlashSaleProductId \n" +
+                        " and fsp.FlashSaleProductId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, fspId);
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    result = rs.getInt(1);
                 }
             }
         }finally {

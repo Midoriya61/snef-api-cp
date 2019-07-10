@@ -155,4 +155,8 @@ public class ProductDAO implements Serializable {
     }
 
 
+    public List<String> getListNameProduct() {
+        List<String> result = null;
+        return result;
+    }
 }
