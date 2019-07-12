@@ -1,6 +1,5 @@
 package com.tinlm.snef.model;
 
-import java.util.Date;
 
 public class Store {
     private int storeId;
@@ -17,9 +16,23 @@ public class Store {
     private String ward;
     private String city;
     private String country;
+    private double latitude;
+    private double longitude;
 
 
     public Store() {
+    }
+
+    public Store(int storeId, int accountId, String storeName, int locationId, String avatar, String openHour, String closeHour,double latitude, double longitude) {
+        this.storeId = storeId;
+        this.accountId = accountId;
+        this.storeName = storeName;
+        this.locationId = locationId;
+        this.avatar = avatar;
+        this.openHour = openHour;
+        this.closeHour = closeHour;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Store(int storeId, int accountId, String storeName, int locationId, String avatar, String openHour, String closeHour) {
@@ -147,5 +160,21 @@ public class Store {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

@@ -27,27 +27,34 @@ public class FlashSaleProductDAO {
         try {
             con = MyConnection.getConnection();
             if (con !=null){
-                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ,\n" +
-                        "fs.StoreId, fs.Discount , fs.EndDate\n" +
-                        " from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs \n" +
-                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId \n" +
+                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
+                        "fs.StoreId, fs.Discount , fs.EndDate, qt.TotalQuantity, spi.ImageSrc " +
+                        "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi," +
+                        "(select SUM(Quantity) as TotalQuantity, FlashSaleProductId from OrderDetail " +
+                        "group by snef_part2.OrderDetail.FlashSaleProductId) as qt " +
+                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
+                        "and qt.FlashSaleProductId = fsp.FlashSaleProductId   and sp.StoreProductId = spi.StoreProductId " +
+                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) \n" +
                         "order by fs.Discount desc limit 10";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
-                    int flashSaleProductId = rs.getInt(1);
-                    int quantity = rs.getInt(2);
-                    int storeProductId = rs.getInt(3);
-                    int spQuantity = rs.getInt(5);
-                    int storeId = rs.getInt(7);
-                    int discount = rs.getInt(8 );
-                    float price = rs.getFloat(6);
-                    Date endDate = rs.getDate(9);
-                    String productName = rs.getString(4);
+                    FlashSaleProduct flashSaleProduct = new FlashSaleProduct();
+                    flashSaleProduct.setFlashSaleProductId(rs.getInt(1));
+                    flashSaleProduct.setQuantity(rs.getInt(2));
+                    flashSaleProduct.setStoreProductId(rs.getInt(3));
+                    flashSaleProduct.setSpQuantity(rs.getInt(5));
+                    flashSaleProduct.setStoreId(rs.getInt(7));
+                    flashSaleProduct.setDiscount(rs.getInt(8));
+                    flashSaleProduct.setPrice(rs.getFloat(6));
+                    flashSaleProduct.setEndDate(rs.getDate(9));
+                    flashSaleProduct.setProductName(rs.getString(4));
+                    flashSaleProduct.setTotalQuantity(10);
+                    flashSaleProduct.setImageSrc(rs.getString(11));
 
-                    result.add(new FlashSaleProduct(flashSaleProductId,quantity,storeProductId,
-                            productName,spQuantity,price, storeId,discount,endDate
-                            ));
+
+                    result.add(flashSaleProduct);
+
 
                 }
             }
@@ -106,25 +113,32 @@ public class FlashSaleProductDAO {
         try {
             con = MyConnection.getConnection();
             if (con !=null){
-                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ,\n" +
-                        "fs.StoreId, fs.Discount , fs.EndDate\n" +
-                        " from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs \n" +
-                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId limit 10\n";
+                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
+                        "fs.StoreId, fs.Discount , fs.EndDate, qt.TotalQuantity, spi.ImageSrc " +
+                        "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi," +
+                        "(select SUM(Quantity) as TotalQuantity, FlashSaleProductId from OrderDetail " +
+                        "group by snef_part2.OrderDetail.FlashSaleProductId) as qt " +
+                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
+                        "and qt.FlashSaleProductId = fsp.FlashSaleProductId   and sp.StoreProductId = spi.StoreProductId " +
+                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) ";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
-                    int flashSaleProductId = rs.getInt(1);
-                    int quantity = rs.getInt(2);
-                    int storeProductId = rs.getInt(3);
-                    int spQuantity = rs.getInt(5);
-                    int storeId = rs.getInt(7);
-                    int discount = rs.getInt(8 );
-                    float price = rs.getFloat(6);
-                    Date endDate = rs.getDate(9);
-                    String productName = rs.getString(4);
-                    result.add(new FlashSaleProduct(flashSaleProductId,quantity,storeProductId,
-                            productName,spQuantity,price, storeId,discount,endDate
-                    ));
+                    FlashSaleProduct flashSaleProduct = new FlashSaleProduct();
+                    flashSaleProduct.setFlashSaleProductId(rs.getInt(1));
+                    flashSaleProduct.setQuantity(rs.getInt(2));
+                    flashSaleProduct.setStoreProductId(rs.getInt(3));
+                    flashSaleProduct.setSpQuantity(rs.getInt(5));
+                    flashSaleProduct.setStoreId(rs.getInt(7));
+                    flashSaleProduct.setDiscount(rs.getInt(8));
+                    flashSaleProduct.setPrice(rs.getFloat(6));
+                    flashSaleProduct.setEndDate(rs.getDate(9));
+                    flashSaleProduct.setProductName(rs.getString(4));
+                    flashSaleProduct.setTotalQuantity(10);
+                    flashSaleProduct.setImageSrc(rs.getString(11));
+
+
+                    result.add(flashSaleProduct);
 
                 }
             }

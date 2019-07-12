@@ -13,77 +13,91 @@ import java.util.List;
 
 public class StoreDAO {
 
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
-
-    private void closeConnection() throws SQLException {
-        if (rs != null){
-            rs.close();
-        }
-        if (stm !=null){
-            stm.close();
-        }
-        if (con!=null){
-            con.close();
-        }
-    }
 
     public List<Store> getAllStore() throws SQLException, ClassNotFoundException {
 
-        List<Store> result = new ArrayList<>();
+        List<Store> result = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
-            con = MyConnection.myConnection();
+            Connection con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select StoreId, StoreName,StoreManagerId, LocationId, RatingPoint, Avatar, OpenHour, CloseHour from Store";
+                String sql = "select s.StoreId, s.StoreName,s.StoreManagerId, s.LocationId, s.RatingPoint, s.Avatar," +
+                        " s.OpenHour, s.CloseHour,l.Address, d.DistrictName, w.WardName, c.CityName, coun.CountryName," +
+                        "s.Latitude, s.Longitude from Store s, Location l, District d, Ward w, City c, Country coun \n" +
+                        " where l.DistrictId = d.DistrictId and d.WardId = w.WardId and \n" +
+                        " w.CityId = c.CityId and c.CountryId = coun.CountryId and s.LocationId = l.LocationId";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
-                    int storeId = rs.getInt("StoreId");
-                    int storeManagerId = rs.getInt("StoreManagerId");
-                    int locationId = rs.getInt("LocationId");
-                    String storeName = rs.getString("StoreName");
-                    String avatar = rs.getString("Avatar");
-                    String openHour = rs.getString("OpenHour");
-                    String closeHour = rs.getString("CloseHour");
+                    if(result == null)
+                        result = new ArrayList<>();
+                    Store store = new Store();
+                    store.setStoreId(rs.getInt("StoreId"));
+                    store.setAccountId(rs.getInt("StoreManagerId"));
+                    store.setLocationId(rs.getInt("LocationId"));
+                    store.setStoreName(rs.getString("StoreName"));
+                    store.setAvatar(rs.getString("Avatar"));
+                    store.setOpenHour(rs.getString("OpenHour"));
+                    store.setCloseHour(rs.getString("CloseHour"));
+                    store.setLatitude(rs.getDouble("Latitude"));
+                    store.setLongitude(rs.getDouble("Longitude"));
 
-                    result.add(new Store(storeId, storeManagerId, storeName,  locationId, avatar, openHour, closeHour));
+                    store.setAddress(rs.getString("Address"));
+                    store.setWard(rs.getString("WardName"));
+                    store.setCity(rs.getString("CityName"));
+                    store.setCountry(rs.getString("CountryName"));
+                    store.setDistrict(rs.getString("DistrictName"));
+
+                    result.add(store);
 
                 }
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm);
         }
         return result;
     }
 
     public Store getStoreById(int storeId) throws SQLException, ClassNotFoundException {
 
-        Store result = new Store();
+        Store result = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
-            con = MyConnection.myConnection();
+            Connection con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select StoreName, LocationId, RatingPoint, Avatar, OpenHour, CloseHour, StoreManagerId" +
-                        " from Store" +
-                        " where StoreId = ?";
+                String sql = "select s.StoreId, s.StoreName,s.StoreManagerId, s.LocationId, s.RatingPoint, s.Avatar," +
+                        " s.OpenHour, s.CloseHour,l.Address, d.DistrictName, w.WardName, c.CityName, coun.CountryName," +
+                        "s.Latitude, s.Longitude from Store s, Location l, District d, Ward w, City c, Country coun " +
+                        " where l.DistrictId = d.DistrictId and d.WardId = w.WardId and " +
+                        " w.CityId = c.CityId and c.CountryId = coun.CountryId and s.LocationId = l.LocationId and " +
+                        " s.StoreId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeId);
                 rs = stm.executeQuery();
-                while (rs.next()){
+                if (rs.next()){
+                    result = new Store();
+                    result.setStoreId(rs.getInt("StoreId"));
+                    result.setAccountId(rs.getInt("StoreManagerId"));
+                    result.setLocationId(rs.getInt("LocationId"));
+                    result.setStoreName(rs.getString("StoreName"));
+                    result.setAvatar(rs.getString("Avatar"));
+                    result.setOpenHour(rs.getString("OpenHour"));
+                    result.setCloseHour(rs.getString("CloseHour"));
+                    result.setLatitude(rs.getDouble("Latitude"));
+                    result.setLongitude(rs.getDouble("Longitude"));
 
-                    int storeManagerId = rs.getInt("StoreManagerId");
-                    int locationId = rs.getInt("LocationId");
-                    String storeName = rs.getString("StoreName");
-                    String avatar = rs.getString("Avatar");
-                    String openHour = rs.getString("OpenHour");
-                    String closeHour = rs.getString("CloseHour");
-                    float ratingPoint = rs.getFloat("RatingPoint");
-                    result = new Store(storeId, storeManagerId, storeName,  locationId, avatar, openHour, closeHour, ratingPoint);
+                    result.setAddress(rs.getString("Address"));
+                    result.setWard(rs.getString("WardName"));
+                    result.setCity(rs.getString("CityName"));
+                    result.setCountry(rs.getString("CountryName"));
+                    result.setDistrict(rs.getString("DistrictName"));
 
                 }
             }
         }finally {
-                closeConnection();
+                MyConnection.closeConnection(rs, stm);
         }
         return result;
     }

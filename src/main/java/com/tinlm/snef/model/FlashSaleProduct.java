@@ -16,6 +16,9 @@ public class FlashSaleProduct {
     private int discount;
     private Date endDate;
 
+    private int totalQuantity;
+    private String imageSrc;
+
     public FlashSaleProduct() {
     }
 
@@ -35,6 +38,22 @@ public class FlashSaleProduct {
         this.storeId = storeId;
         this.discount = discount;
         this.endDate = endDate;
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 
     public int getFlashSaleProductId() {
