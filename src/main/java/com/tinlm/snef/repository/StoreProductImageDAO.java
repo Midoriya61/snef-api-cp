@@ -24,10 +24,11 @@ public class StoreProductImageDAO {
     // Get getOneStoreProductImageById
     public StoreProductImage getOneStoreProductImageById(int storeProductId) throws SQLException, ClassNotFoundException {
         StoreProductImage result =null;
+        Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            Connection con = MyConnection.myConnection();
+            con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select SPIId, ImageSrc from StoreProductImage where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
@@ -41,34 +42,32 @@ public class StoreProductImageDAO {
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs, stm);
+            MyConnection.closeConnection(rs, stm, con);
         }
         return result;
     }
 
     // 6/21/2019 TinLM Create
     // Get getStoreProductImageById
-    public List<StoreProductImage> getStoreProductImageById(int storeProductId) throws SQLException, ClassNotFoundException {
-        List<StoreProductImage> result =new ArrayList<>();
+    public List<String> getStoreProductImageById(int storeProductId) throws SQLException, ClassNotFoundException {
+        List<String> result =new ArrayList<>();
+        Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            Connection con = MyConnection.myConnection();
+            con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select SPIId, ImageSrc from StoreProductImage where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeProductId);
                 rs = stm.executeQuery();
                 while (rs.next()){
-                    int fspId = rs.getInt("SPIId");
-                    String imageSrc = rs.getString("ImageSrc");
-
-                    result.add(new StoreProductImage(fspId, imageSrc, storeProductId));
+                    result.add(rs.getString("ImageSrc"));
 
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs, stm);
+            MyConnection.closeConnection(rs, stm,con);
         }
         return result;
     }

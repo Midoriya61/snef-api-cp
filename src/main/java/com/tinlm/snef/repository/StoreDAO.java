@@ -17,10 +17,11 @@ public class StoreDAO {
     public List<Store> getAllStore() throws SQLException, ClassNotFoundException {
 
         List<Store> result = null;
+        Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            Connection con = MyConnection.myConnection();
+            con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select s.StoreId, s.StoreName,s.StoreManagerId, s.LocationId, s.RatingPoint, s.Avatar," +
                         " s.OpenHour, s.CloseHour,l.Address, d.DistrictName, w.WardName, c.CityName, coun.CountryName," +
@@ -42,6 +43,7 @@ public class StoreDAO {
                     store.setCloseHour(rs.getString("CloseHour"));
                     store.setLatitude(rs.getDouble("Latitude"));
                     store.setLongitude(rs.getDouble("Longitude"));
+                    store.setRatingPoint(rs.getFloat("RatingPoint"));
 
                     store.setAddress(rs.getString("Address"));
                     store.setWard(rs.getString("WardName"));
@@ -54,18 +56,19 @@ public class StoreDAO {
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs,stm);
+            MyConnection.closeConnection(rs,stm,con);
         }
         return result;
     }
 
     public Store getStoreById(int storeId) throws SQLException, ClassNotFoundException {
 
-        Store result = null;
+        Store result = new Store();
+        Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            Connection con = MyConnection.myConnection();
+            con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select s.StoreId, s.StoreName,s.StoreManagerId, s.LocationId, s.RatingPoint, s.Avatar," +
                         " s.OpenHour, s.CloseHour,l.Address, d.DistrictName, w.WardName, c.CityName, coun.CountryName," +
@@ -77,7 +80,7 @@ public class StoreDAO {
                 stm.setInt(1, storeId);
                 rs = stm.executeQuery();
                 if (rs.next()){
-                    result = new Store();
+
                     result.setStoreId(rs.getInt("StoreId"));
                     result.setAccountId(rs.getInt("StoreManagerId"));
                     result.setLocationId(rs.getInt("LocationId"));
@@ -87,6 +90,7 @@ public class StoreDAO {
                     result.setCloseHour(rs.getString("CloseHour"));
                     result.setLatitude(rs.getDouble("Latitude"));
                     result.setLongitude(rs.getDouble("Longitude"));
+                    result.setRatingPoint(rs.getFloat("RatingPoint"));
 
                     result.setAddress(rs.getString("Address"));
                     result.setWard(rs.getString("WardName"));
@@ -97,7 +101,7 @@ public class StoreDAO {
                 }
             }
         }finally {
-                MyConnection.closeConnection(rs, stm);
+                MyConnection.closeConnection(rs, stm,con);
         }
         return result;
     }

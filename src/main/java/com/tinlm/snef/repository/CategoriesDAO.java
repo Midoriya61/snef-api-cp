@@ -4,7 +4,6 @@ package com.tinlm.snef.repository;
 import java.util.List;
 import com.tinlm.snef.connection.MyConnection;
 import com.tinlm.snef.model.Categories;
-import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +25,7 @@ public class CategoriesDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            con = MyConnection.getConnection();
+            con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select CategoriesId, CategoryName, ImageSrc from Categories";
                 stm = con.prepareStatement(sql);
@@ -42,7 +41,7 @@ public class CategoriesDAO {
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs,stm);
+            MyConnection.closeConnection(rs,stm,con);
         }
         return result;
     }

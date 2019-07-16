@@ -14,15 +14,15 @@ import java.util.List;
 // 6/23/2019 TinLM Create getQuantityById
 public class StoreProductDAO {
 
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
 
 
     public int getQuantityById(int storeProductId) throws SQLException, ClassNotFoundException {
         int result = 0;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
-            con = MyConnection.getConnection();
+            con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select Quantity from StoreProduct where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
@@ -33,15 +33,18 @@ public class StoreProductDAO {
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs,stm);
+            MyConnection.closeConnection(rs,stm,con);
         }
         return result;
     }
 
     public String getDescriptionById(int storeProductId) throws SQLException, ClassNotFoundException {
         String result = "";
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
-            con = MyConnection.getConnection();
+            con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select Description from StoreProduct where StoreProductId = ?";
                 stm = con.prepareStatement(sql);
@@ -52,7 +55,7 @@ public class StoreProductDAO {
                 }
             }
         }finally {
-            MyConnection.closeConnection(rs,stm);
+            MyConnection.closeConnection(rs,stm,con);
         }
         return result;
     }

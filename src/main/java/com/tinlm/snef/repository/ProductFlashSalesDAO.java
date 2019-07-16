@@ -18,24 +18,14 @@ import java.util.List;
 @Repository
 public class ProductFlashSalesDAO implements Serializable {
 
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
 
-    private void closeConnection() throws SQLException {
-        if (rs != null){
-            rs.close();
-        }
-        if (stm !=null){
-            stm.close();
-        }
-        if (con!=null){
-            con.close();
-        }
-    }
+
     public List<ProductFlashSales> loadFsToDay() throws SQLException, ClassNotFoundException {
 
         List<ProductFlashSales> flashSales = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             con = MyConnection.myConnection();
             if (con !=null){
@@ -76,7 +66,7 @@ public class ProductFlashSalesDAO implements Serializable {
                 return flashSales;
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
 
         }
         return null;
@@ -85,6 +75,9 @@ public class ProductFlashSalesDAO implements Serializable {
     public List<ProductFlashSales> loadFsTomorow() throws SQLException, ClassNotFoundException {
 
         List<ProductFlashSales> flashSales = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             con = MyConnection.myConnection();
             if (con !=null){
@@ -122,7 +115,7 @@ public class ProductFlashSalesDAO implements Serializable {
             }
         }finally {
 
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
         }
         return null;
     }
@@ -130,6 +123,9 @@ public class ProductFlashSalesDAO implements Serializable {
     public List<ProductFlashSales> loadFsNext() throws SQLException, ClassNotFoundException {
 
         List<ProductFlashSales> flashSales = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             con = MyConnection.myConnection();
             if (con !=null){
@@ -166,7 +162,7 @@ public class ProductFlashSalesDAO implements Serializable {
                 return flashSales;
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
         }
         return null;
     }
@@ -175,6 +171,9 @@ public class ProductFlashSalesDAO implements Serializable {
 
     public ProductFlashSales searchFSById(int fsId) throws SQLException, ClassNotFoundException {
         ProductFlashSales searchValue = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             con = MyConnection.myConnection();
             if (con !=null){
@@ -202,7 +201,7 @@ public class ProductFlashSalesDAO implements Serializable {
                 return searchValue;
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
         }
         return null;
     }

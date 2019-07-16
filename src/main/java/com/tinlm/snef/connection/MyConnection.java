@@ -11,7 +11,6 @@ public class MyConnection implements Serializable {
 //        String url = "jdbc:sqlserver://localhost:1433;databaseName=SNEF_DEMO";
         String url = "jdbc:mysql://snef.cvkbe5tc6xkf.ap-southeast-1.rds.amazonaws.com:3306/snef_part2";
 //        Connection con = DriverManager.getConnection(url, "sa", "trungnhan137");
-
 //        String dbName = System.getProperty("SNEF_Part2");
 //        String userName = System.getProperty("TinLM");
 //        String password = System.getProperty("Chaulen3");
@@ -19,32 +18,23 @@ public class MyConnection implements Serializable {
 //        String port = System.getProperty("3306");
 //        String jdbcUrl = "jdbc:mysql://" + hostname + ":" +
 //                port + "/" + dbName + "?user=" + userName + "&password=" + password;
-
         Connection con = DriverManager.getConnection(url, "TinLM", "Chaulen3");
 //        Connection con = DriverManager.getConnection(jdbcUrl);
+
         return con;
     }
 
 
-    public static Connection getConnection() {
-        if( connection == null ) {
-            try {
-                connection = myConnection();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        return connection;
-    }
-    public static void closeConnection(ResultSet rs, PreparedStatement stm) {
+    public static void closeConnection(ResultSet rs, PreparedStatement stm, Connection con) {
         try {
             if (rs != null){
                 rs.close();
             }
             if (stm !=null){
                 stm.close();
+            }
+            if (con != null) {
+                con.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -14,24 +14,41 @@ import java.util.List;
 
 @Repository
 public class LikesDAO implements Serializable {
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
 
-    private void closeConnection() throws SQLException {
-        if (rs != null){
-            rs.close();
+    public Likes getLikeById(int customerId, int storeProductId) {
+        Likes result = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try{
+            con = MyConnection.myConnection();
+            if (con != null){
+                String sql = " select LikeId, CustomerId, StoreProductId from `Like` where CustomerId = ? and StoreProductId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, customerId);
+                stm.setInt(2, storeProductId);
+                rs = stm.executeQuery();
+                if (rs.next()){
+                    result = new Likes(rs.getInt("LikeId"),rs.getInt("CustomerId"), rs.getInt("StoreProductId"));
+                               }
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            MyConnection.closeConnection(rs,stm,con);
         }
-        if (stm !=null){
-            stm.close();
-        }
-        if (con!=null){
-            con.close();
-        }
+
+        return result;
     }
 
     public List<Likes> getLikeByProductId(int proId) throws SQLException, ClassNotFoundException {
         List<Likes> getListLikes = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try{
             con = MyConnection.myConnection();
             if (con != null){
@@ -55,12 +72,15 @@ public class LikesDAO implements Serializable {
 
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
         }
         return null;
     }
 
     public boolean deleteLKByProId(int productId, int cusId) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try{
             con = MyConnection.myConnection();
             if (con != null){
@@ -79,18 +99,21 @@ public class LikesDAO implements Serializable {
                 }
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
         }
         return false;
     }
 
-    public boolean insertLikeByProId(int storeProductId, int custId) throws SQLException, ClassNotFoundException {
+    public boolean insertLikeByProId(int customerId, int storeProductId) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try{
             con = MyConnection.myConnection();
             if (con != null){
-                String sql = "INSERT INTO dbo.Likes(CustomerId, StoreProductId) VALUES (?,?)";
+                String sql = "insert into `Like`(`CustomerId`, `StoreProductId`) values(?, ?)";
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, custId);
+                stm.setInt(1, customerId);
                 stm.setInt(2,storeProductId);
                 int row = stm.executeUpdate();
                 if (row > 0){
@@ -99,7 +122,31 @@ public class LikesDAO implements Serializable {
             }
 
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
+        }
+
+        return  false;
+    }
+
+    public boolean deleteLikeById(int likeId) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try{
+            con = MyConnection.myConnection();
+            if (con != null){
+                String sql = "Delete from `Like` where LikeId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setInt(1, likeId);
+
+                int row = stm.executeUpdate();
+                if (row > 0){
+                    return true;
+                }
+            }
+
+        }finally {
+            MyConnection.closeConnection(rs,stm,con);
         }
 
         return  false;

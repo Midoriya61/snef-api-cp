@@ -14,24 +14,13 @@ import java.util.List;
 
 @Repository
 public class StoreFollowerDAO implements Serializable {
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
 
-    private void closeConnection() throws SQLException {
-        if (rs != null){
-            rs.close();
-        }
-        if (stm !=null){
-            stm.close();
-        }
-        if (con!=null){
-            con.close();
-        }
-    }
 
     public List<StoreFollower> getFollowByCusId(int customerId) throws SQLException, ClassNotFoundException {
         List<StoreFollower> listFollow = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try{
             con = MyConnection.myConnection();
             if (con != null){
@@ -52,12 +41,15 @@ public class StoreFollowerDAO implements Serializable {
                 return  listFollow;
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs, stm,con);
         }
         return null;
     }
 
     public boolean insertNewFollower(int storeId, int custId) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try{
            con = MyConnection.myConnection();
            if (con != null){
@@ -73,12 +65,15 @@ public class StoreFollowerDAO implements Serializable {
            }
 
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
         }
         return false;
     }
 
     public boolean deleteFollower(int storeId, int custId) throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             con = MyConnection.myConnection();
             if (con != null){
@@ -92,7 +87,7 @@ public class StoreFollowerDAO implements Serializable {
                 }
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
         }
         return false;
     }

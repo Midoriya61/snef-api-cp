@@ -14,30 +14,14 @@ import java.sql.SQLException;
 
 
 public class CustomerDAO implements AccountDAO {
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
 
-    private void closeConnection()  {
-        try {
-            if (rs != null){
-                rs.close();
-            }
-            if (stm !=null){
-                stm.close();
-            }
-            if (con!=null){
-                con.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     @Override
     public Customer login(String username, String password)  {
         Customer result = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             con = MyConnection.myConnection();
             if (con !=null){
@@ -65,7 +49,7 @@ public class CustomerDAO implements AccountDAO {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
         }
         return result;
     }

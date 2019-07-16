@@ -15,25 +15,14 @@ import java.util.List;
 // 6/17/2019 TinLM Create getLocatinById
 @Repository
 public class LocationDAO {
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
 
-    private void closeConnection() throws SQLException {
-        if (rs != null){
-            rs.close();
-        }
-        if (stm !=null){
-            stm.close();
-        }
-        if (con!=null){
-            con.close();
-        }
-    }
     // 6/17/2019 TinLM Create
     // Get getLocatinById
     public Location getLocatinById(int locationId) throws SQLException, ClassNotFoundException {
         Location result =null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
             con = MyConnection.myConnection();
             if (con !=null){
@@ -57,7 +46,7 @@ public class LocationDAO {
                 }
             }
         }finally {
-            closeConnection();
+            MyConnection.closeConnection(rs,stm,con);
         }
         return result;
     }

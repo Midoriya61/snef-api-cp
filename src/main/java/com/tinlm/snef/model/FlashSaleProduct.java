@@ -19,6 +19,8 @@ public class FlashSaleProduct {
     private int totalQuantity;
     private String imageSrc;
 
+    private String description;
+
     public FlashSaleProduct() {
     }
 
@@ -38,6 +40,14 @@ public class FlashSaleProduct {
         this.storeId = storeId;
         this.discount = discount;
         this.endDate = endDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getTotalQuantity() {

@@ -33,9 +33,9 @@ public class StoreProductImageService {
 
     // 6/21/2019 TinLM Create
     @RequestMapping(method = RequestMethod.GET, path = "/getImage/{storeProductId}", produces = "application/json")
-    public List<StoreProductImage> getProductImageById(@PathVariable("storeProductId") int storeProductId) throws SQLException, ClassNotFoundException {
+    public List<String> getProductImageById(@PathVariable("storeProductId") int storeProductId) throws SQLException, ClassNotFoundException {
 
-        List<StoreProductImage> searchValue =storeProductImageDAO.getStoreProductImageById(storeProductId);
+        List<String> searchValue =storeProductImageDAO.getStoreProductImageById(storeProductId);
         return searchValue;
     }
 }

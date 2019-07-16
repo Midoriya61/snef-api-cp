@@ -12,15 +12,15 @@ import java.sql.SQLException;
 // 6/22/2019 TinLM Create getValueByName
 public class ConfigurationDAO {
 
-    private Connection con;
-    private PreparedStatement stm;
-    private ResultSet rs;
 
     // 6/22/2019 TinLM Create
     public String getValueByName(String configurationName) {
         String result = "";
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
         try {
-            con = MyConnection.getConnection();
+            con = MyConnection.myConnection();
             String sql = "select configurationValue from configuration where configurationName = ?";
             stm = con.prepareStatement(sql);
             stm.setString(1, configurationName);
@@ -30,8 +30,10 @@ public class ConfigurationDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         } finally {
-            MyConnection.closeConnection(rs, stm);
+            MyConnection.closeConnection(rs, stm,con);
         }
         return result;
     }
