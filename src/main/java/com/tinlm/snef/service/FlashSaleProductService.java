@@ -67,11 +67,4 @@ public class FlashSaleProductService {
         List<FlashSaleProduct> result = flashSaleProductDAO.getFSPByName(searchName);        ;
         return result;
     }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/getFSPById/{flashSaleProductId}", produces = "application/json")
-    public FlashSaleProduct getFSPById(@PathVariable("flashSaleProductId") int flashSaleProductId) throws SQLException, ClassNotFoundException{
-        FlashSaleProductDAO flashSaleProductDAO = new FlashSaleProductDAO();
-        FlashSaleProduct result = flashSaleProductDAO.getFSPById(flashSaleProductId);        ;
-        return result;
-    }
 }

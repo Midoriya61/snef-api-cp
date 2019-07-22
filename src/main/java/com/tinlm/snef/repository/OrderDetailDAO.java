@@ -1,16 +1,14 @@
 package com.tinlm.snef.repository;
 
 import com.tinlm.snef.connection.MyConnection;
-import com.tinlm.snef.model.OrderDetail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OrderDetailDAO {
+
 
     public int getQuantityByFSPId(int flashsaleProductId) throws SQLException, ClassNotFoundException {
         int result = 0;
@@ -34,7 +32,7 @@ public class OrderDetailDAO {
         return result;
     }
 
-    public boolean createOrderDetail(int orderId, int fspId, int quantity, float orderDetailPrice) {
+    public boolean createOrder(int orderId, int fspId, int quantity, float orderDetailPrice) {
         boolean result = false;
 
         Connection con = null;
@@ -65,33 +63,5 @@ public class OrderDetailDAO {
         }
 
         return  result;
-    }
-
-    public List<OrderDetail> getAllOrderDetailByOrderId(int orderId) throws SQLException, ClassNotFoundException {
-        List<OrderDetail> result = new ArrayList<>();
-        Connection con =null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            con = MyConnection.myConnection();
-            if (con !=null){
-                String sql = "select OrderDetailId, OrderOrderId, FlashSaleProductId, Quantity, OrderDetailPrice " +
-                        "from snef_part2.OrderDetail where OrderOrderId = ?";
-                stm = con.prepareStatement(sql);
-                stm.setInt(1, orderId);
-                rs = stm.executeQuery();
-                while (rs.next()){
-                    int orderDetailId = rs.getInt("OrderDetailId");
-                    int flashSaleProductId = rs.getInt("FlashSaleProductId");
-                    int quantity = rs.getInt("Quantity");
-                    float orderDetailPrice = rs.getInt("OrderDetailPrice");
-
-                    result.add(new OrderDetail(orderDetailId, orderId, flashSaleProductId, quantity, orderDetailPrice));
-                }
-            }
-        }finally {
-            MyConnection.closeConnection(rs,stm,con);
-        }
-        return result;
     }
 }

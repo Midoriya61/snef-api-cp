@@ -292,47 +292,4 @@ public class FlashSaleProductDAO {
         return result;
     }
 
-    public FlashSaleProduct getFSPById(int flashSaleProductId) throws SQLException, ClassNotFoundException {
-
-        FlashSaleProduct flashSaleProduct = new FlashSaleProduct();
-        Connection con = null;
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try {
-            con = MyConnection.myConnection();
-            if (con !=null){
-                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
-                        "fs.StoreId, fs.Discount , fs.EndDate, qt.TotalQuantity, spi.ImageSrc, sp.Description " +
-                        "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi," +
-                        "(select SUM(Quantity) as TotalQuantity, FlashSaleProductId from OrderDetail " +
-                        "group by snef_part2.OrderDetail.FlashSaleProductId) as qt " +
-                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = ? " +
-                        "and qt.FlashSaleProductId = fsp.FlashSaleProductId   and sp.StoreProductId = spi.StoreProductId " +
-                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1)";
-                stm = con.prepareStatement(sql);
-                stm.setInt(1, flashSaleProductId);
-                rs = stm.executeQuery();
-                if (rs.next()){
-
-                    flashSaleProduct.setFlashSaleProductId(rs.getInt(1));
-                    flashSaleProduct.setQuantity(rs.getInt(2));
-                    flashSaleProduct.setStoreProductId(rs.getInt(3));
-                    flashSaleProduct.setSpQuantity(rs.getInt(5));
-                    flashSaleProduct.setStoreId(rs.getInt(7));
-                    flashSaleProduct.setDiscount(rs.getInt(8));
-                    flashSaleProduct.setPrice(rs.getFloat(6));
-                    flashSaleProduct.setEndDate(rs.getDate(9));
-                    flashSaleProduct.setProductName(rs.getString(4));
-                    flashSaleProduct.setTotalQuantity(10);
-                    flashSaleProduct.setImageSrc(rs.getString(11));
-                    flashSaleProduct.setDescription(rs.getString(12));
-
-                }
-            }
-        }finally {
-            MyConnection.closeConnection(rs, stm,con);
-        }
-        return flashSaleProduct;
-    }
-
 }

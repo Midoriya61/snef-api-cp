@@ -15,15 +15,6 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderId, Date dateOrder, String confirmationCode, boolean status, float ratingPoint, int accountId) {
-        this.orderId = orderId;
-        this.dateOrder = dateOrder;
-        this.confirmationCode = confirmationCode;
-        this.status = status;
-        this.ratingPoint = ratingPoint;
-        this.accountId = accountId;
-    }
-
     public int getOrderId() {
         return orderId;
     }

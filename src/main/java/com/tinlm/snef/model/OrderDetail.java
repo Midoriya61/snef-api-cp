@@ -8,15 +8,8 @@ public class OrderDetail {
     private int quantity;
     private float orderDetailPrice;
 
-    public OrderDetail(int orderDetailId, int orderId, int flashSaleProductId, int quantity, float orderDetailPrice) {
-        this.orderDetailId = orderDetailId;
-        this.orderId = orderId;
-        this.flashSaleProductId = flashSaleProductId;
-        this.quantity = quantity;
-        this.orderDetailPrice = orderDetailPrice;
+    public OrderDetail() {
     }
-
-
 
     public int getOrderDetailId() {
         return orderDetailId;
