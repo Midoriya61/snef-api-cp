@@ -50,6 +50,7 @@ public class LikesService {
     public boolean  insertNewLikes(@PathVariable("customerId") int customerId,@PathVariable("storeProductId") int storeProductId) throws SQLException, ClassNotFoundException {
         boolean rs = lkDao.insertLikeByProId(customerId, storeProductId);
         if (rs){
+
             return  true;
         }
         return false;
