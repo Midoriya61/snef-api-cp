@@ -340,8 +340,8 @@ public class FlashSaleProductDAO {
                 String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
                         "fs.StoreId, fs.Discount , fs.EndDate, spi.ImageSrc, sp.Description " +
                         "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi " +
-                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = ? " +
-                        "and  sp.StoreProductId = spi.StoreProductId " +
+                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
+                        "and  sp.StoreProductId = spi.StoreProductId and fsp.FlashSaleProductId = ? " +
                         "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1)";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, flashSaleProductId);

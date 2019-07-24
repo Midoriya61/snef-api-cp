@@ -31,4 +31,16 @@ public class OrderService {
         Order result = orderDAO.getLastOrder();
         return result;
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "getAllOrder/", produces = "application/json")
+    public List<Order> getAllOrder() throws SQLException, ClassNotFoundException {
+        List<Order> result = orderDAO.getAllOrder();
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "getOrderById/{orderId}", produces = "application/json")
+    public Order getOrderById(@PathVariable("orderId") int orderId) throws SQLException, ClassNotFoundException {
+        Order result = orderDAO.getOrderById(orderId);
+        return result;
+    }
 }
