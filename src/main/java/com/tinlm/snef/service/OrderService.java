@@ -43,4 +43,10 @@ public class OrderService {
         Order result = orderDAO.getOrderById(orderId);
         return result;
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "updateRatingBar/{orderId}/{ratingPoint}", produces = "application/json")
+    public boolean updateRatingBar(@PathVariable("orderId") int orderId, @PathVariable("ratingPoint") float ratingPoint) throws SQLException, ClassNotFoundException {
+        boolean result = orderDAO.updateRatingBar(orderId, ratingPoint);
+        return result;
+    }
 }

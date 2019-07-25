@@ -11,17 +11,25 @@ public class Order {
     private int accountId;
     private boolean status;
     private float ratingPoint;
+    private int storeId;
+    private String storeName;
 
     public Order() {
     }
 
-    public Order(int orderId, Date dateOrder, String confirmationCode, boolean status, float ratingPoint, int accountId) {
+    public Order(int orderId, Date dateOrder, String confirmationCode, boolean status, float ratingPoint,
+                 float totalPrice, int orderQuantity, int storeId, String storeName, int accountId) {
         this.orderId = orderId;
         this.dateOrder = dateOrder;
         this.confirmationCode = confirmationCode;
         this.status = status;
         this.ratingPoint = ratingPoint;
         this.accountId = accountId;
+        this.totalPrice = totalPrice;
+        this.orderQuantity = orderQuantity;
+        this.storeId = storeId;
+        this.storeName = storeName;
+
     }
 
     public int getOrderId() {
@@ -87,4 +95,21 @@ public class Order {
     public void setRatingPoint(float ratingPoint) {
         this.ratingPoint = ratingPoint;
     }
+
+    public int getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
 }
