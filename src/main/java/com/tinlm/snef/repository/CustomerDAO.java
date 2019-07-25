@@ -54,4 +54,45 @@ public class CustomerDAO implements AccountDAO {
         return result;
     }
 
+    @Override
+    public Boolean createAccount(String username, String password, String firstname, String lastname) {
+        Boolean result = false;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql = "insert into `Account` (`Username`,`Password`,`FirstName`,`LastName`)  \n" +
+                        "values (?,?,?, ?)";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, username);
+                stm.setString(2, password);
+                stm.setString(3, firstname);
+                stm.setString(4, lastname);
+                int reesult = stm.executeUpdate();
+                if( reesult > 0 ) {
+                    sql = "select AccountId from Account where Username = ?";
+                    stm = con.prepareStatement(sql);
+                    stm.setString(1,username);
+                    rs = stm.executeQuery();
+                    if(rs.next()) {
+                        sql = "insert into `Customer`(`AccountId`) values (?)";
+                        stm = con.prepareStatement(sql);
+                        stm.setInt(1,rs.getInt(1));
+                        result = stm.executeUpdate() > 0;
+                    }
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            MyConnection.closeConnection(rs,stm,con);
+        }
+        return result;
+    }
+
 }
