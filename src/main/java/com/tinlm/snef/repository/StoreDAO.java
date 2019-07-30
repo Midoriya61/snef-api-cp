@@ -10,11 +10,13 @@ import java.util.List;
 
 
 @Repository
-
 public class StoreDAO {
 
+    //DEGREES đổi số thành độ
+    // ACOS là cosin
+    // LEAST trả về giá trị nhỏ nhất trong danh sách
 
-    public List<Store> getAllStore() throws SQLException, ClassNotFoundException {
+    public List<Store> getAllStore(double latitude, double longitude) throws SQLException, ClassNotFoundException {
 
         List<Store> result = null;
         Connection con = null;
@@ -23,12 +25,15 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select s.StoreId, s.StoreName,s.StoreManagerId, s.LocationId, s.RatingPoint, s.Avatar," +
-                        " s.OpenHour, s.CloseHour,l.Address, d.DistrictName, w.WardName, c.CityName, coun.CountryName," +
-                        "s.Latitude, s.Longitude from Store s, Location l, District d, Ward w, City c, Country coun \n" +
-                        " where l.DistrictId = d.DistrictId and d.WardId = w.WardId and \n" +
-                        " w.CityId = c.CityId and c.CountryId = coun.CountryId and s.LocationId = l.LocationId";
+                String sql = "select StoreId, StoreName,StoreManagerId, RatingPoint, Avatar," +
+                        "OpenHour, CloseHour,Address," +
+                        "Latitude, Longitude, Phone, " +
+                        "111.111 * ST_Distance(Point(Latitude, Longitude), Point(?,?)) as distance_in_km " +
+                        "from Store " +
+                        "Order by distance_in_km asc limit 10";
                 stm = con.prepareStatement(sql);
+                stm.setDouble(1, latitude);
+                stm.setDouble(2, longitude);
                 rs = stm.executeQuery();
                 while (rs.next()){
                     if(result == null)
@@ -36,7 +41,6 @@ public class StoreDAO {
                     Store store = new Store();
                     store.setStoreId(rs.getInt("StoreId"));
                     store.setAccountId(rs.getInt("StoreManagerId"));
-                    store.setLocationId(rs.getInt("LocationId"));
                     store.setStoreName(rs.getString("StoreName"));
                     store.setAvatar(rs.getString("Avatar"));
                     store.setOpenHour(rs.getString("OpenHour"));
@@ -44,13 +48,9 @@ public class StoreDAO {
                     store.setLatitude(rs.getDouble("Latitude"));
                     store.setLongitude(rs.getDouble("Longitude"));
                     store.setRatingPoint(rs.getFloat("RatingPoint"));
-
                     store.setAddress(rs.getString("Address"));
-                    store.setWard(rs.getString("WardName"));
-                    store.setCity(rs.getString("CityName"));
-                    store.setCountry(rs.getString("CountryName"));
-                    store.setDistrict(rs.getString("DistrictName"));
-
+                    store.setPhone(rs.getString("Phone"));
+                    store.setDistance(rs.getDouble("distance_in_km"));
                     result.add(store);
 
                 }
@@ -70,12 +70,11 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select s.StoreId, s.StoreName,s.StoreManagerId, s.LocationId, s.RatingPoint, s.Avatar," +
-                        " s.OpenHour, s.CloseHour,l.Address, d.DistrictName, w.WardName, c.CityName, coun.CountryName," +
-                        "s.Latitude, s.Longitude from Store s, Location l, District d, Ward w, City c, Country coun " +
-                        " where l.DistrictId = d.DistrictId and d.WardId = w.WardId and " +
-                        " w.CityId = c.CityId and c.CountryId = coun.CountryId and s.LocationId = l.LocationId and " +
-                        " s.StoreId = ?";
+                String sql = "select StoreId, StoreName,StoreManagerId, RatingPoint, Avatar," +
+                        "OpenHour, CloseHour,Address," +
+                        "Latitude, Longitude, Phone " +
+                        "from Store " +
+                        "where  StoreId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeId);
                 rs = stm.executeQuery();
@@ -83,7 +82,6 @@ public class StoreDAO {
 
                     result.setStoreId(rs.getInt("StoreId"));
                     result.setAccountId(rs.getInt("StoreManagerId"));
-                    result.setLocationId(rs.getInt("LocationId"));
                     result.setStoreName(rs.getString("StoreName"));
                     result.setAvatar(rs.getString("Avatar"));
                     result.setOpenHour(rs.getString("OpenHour"));
@@ -91,12 +89,8 @@ public class StoreDAO {
                     result.setLatitude(rs.getDouble("Latitude"));
                     result.setLongitude(rs.getDouble("Longitude"));
                     result.setRatingPoint(rs.getFloat("RatingPoint"));
-
                     result.setAddress(rs.getString("Address"));
-                    result.setWard(rs.getString("WardName"));
-                    result.setCity(rs.getString("CityName"));
-                    result.setCountry(rs.getString("CountryName"));
-                    result.setDistrict(rs.getString("DistrictName"));
+                    result.setPhone(rs.getString("Phone"));
 
                 }
             }
@@ -105,5 +99,53 @@ public class StoreDAO {
         }
         return result;
     }
+
+    public List<Store> getStoreByDistance ( double latitude, double longitude ) throws SQLException, ClassNotFoundException {
+
+        List<Store> result = null;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql = "select StoreId, StoreName,StoreManagerId, RatingPoint, Avatar," +
+                        "OpenHour, CloseHour,Address," +
+                        "Latitude,Longitude, Phone, " +
+                        "111.111 * ST_Distance(Point(Latitude, Longitude), Point(?,?)) as distance_in_km \n" +
+                        "from Store " +
+                        "Order by distance_in_km asc limit 10";
+                stm = con.prepareStatement(sql);
+                stm.setDouble(1, latitude);
+                stm.setDouble(2, longitude);
+                rs = stm.executeQuery();
+                while (rs.next()){
+                    if(result == null)
+                        result = new ArrayList<>();
+                    Store store = new Store();
+                    store.setStoreId(rs.getInt("StoreId"));
+                    store.setAccountId(rs.getInt("StoreManagerId"));
+                    store.setStoreName(rs.getString("StoreName"));
+                    store.setAvatar(rs.getString("Avatar"));
+                    store.setOpenHour(rs.getString("OpenHour"));
+                    store.setCloseHour(rs.getString("CloseHour"));
+                    store.setLatitude(rs.getDouble("Latitude"));
+                    store.setLongitude(rs.getDouble("Longitude"));
+                    store.setRatingPoint(rs.getFloat("RatingPoint"));
+
+                    store.setAddress(rs.getString("Address"));
+                    store.setPhone(rs.getString("Phone"));
+                    store.setDistance(rs.getDouble("distance_in_km"));
+                    result.add(store);
+
+                }
+            }
+        }finally {
+            MyConnection.closeConnection(rs,stm,con);
+        }
+        return result;
+    }
+
+
 
 }

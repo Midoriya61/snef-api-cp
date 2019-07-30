@@ -19,9 +19,10 @@ public class StoreService {
     StoreDAO storeDAO = new StoreDAO();
 
     // 6/17/2019 TinLM Create getAllStores
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public List<Store> getAllStores() throws SQLException, ClassNotFoundException {
-        List<Store> getList = storeDAO.getAllStore();
+    @RequestMapping(path = "/{latitude}/{longitude}" +
+            "",method = RequestMethod.GET, produces = "application/json")
+    public List<Store> getAllStores(@PathVariable("latitude") double latitude, @PathVariable("longitude") double longtide) throws SQLException, ClassNotFoundException {
+        List<Store> getList = storeDAO.getAllStore(latitude, longtide);
         return getList;
     }
 
@@ -30,5 +31,12 @@ public class StoreService {
     public Store getStoreById(@PathVariable int storeId) throws SQLException, ClassNotFoundException {
         Store result = storeDAO.getStoreById(storeId);
         return result;
+    }
+
+    @RequestMapping(path = "getStoreByDistance/{latitude}/{longitude}" +
+            "",method = RequestMethod.GET, produces = "application/json")
+    public List<Store> getStoreByDistance(@PathVariable("latitude") double latitude, @PathVariable("longitude") double longtide) throws SQLException, ClassNotFoundException {
+        List<Store> getList = storeDAO.getStoreByDistance(latitude, longtide);
+        return getList;
     }
 }
