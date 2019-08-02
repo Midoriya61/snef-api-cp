@@ -33,7 +33,7 @@ public class FlashSaleProductDAO {
                         "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
                         "and  sp.StoreProductId = spi.StoreProductId " +
                         "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) " +
-                        "and fs.EndDate > CURDATE() \n" +
+                        "and fs.EndDate > CURDATE() and sp.Status = True \n" +
                         "order by fs.Discount desc limit 10";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
@@ -89,7 +89,7 @@ public class FlashSaleProductDAO {
                         "fs.StoreId, fs.Discount , fs.EndDate " +
                         "from Flashsales fs,Store s, StoreProduct sp, FlashsaleProduct fsp \n" +
                         "where fsp.FlashSalesId = fs.FlashSalesId and s.StoreId = sp.StoreId and sp.StoreProductId = fsp.StoreProductId\n" +
-                        " and fs.EndDate > CURDATE() and s.StoreId = ?";
+                        " and sp.Status = True and fs.EndDate > CURDATE() and s.StoreId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeId);
                 rs = stm.executeQuery();
@@ -130,7 +130,7 @@ public class FlashSaleProductDAO {
                         "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
                         "and sp.StoreProductId = spi.StoreProductId " +
                         "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) " +
-                        "and fs.EndDate > CURDATE() ";
+                        "and fs.EndDate > CURDATE() and sp.Status = True";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
@@ -189,7 +189,7 @@ public class FlashSaleProductDAO {
                         "and sp.StoreProductId = spi.StoreProductId " +
                         "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) " +
                         " and p.CategoriesId = c.CategoriesId and p.ProductId = sp.ProductId and fs.EndDate > CURDATE()" +
-                        " and c.CategoriesId = ?";
+                        " and sp.Status = True and c.CategoriesId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, categoryId);
                 rs = stm.executeQuery();
@@ -282,7 +282,7 @@ public class FlashSaleProductDAO {
                         "fs.StoreId, fs.Discount , fs.EndDate, spi.ImageSrc, sp.Description " +
                         "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi " +
                         "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
-                        "and sp.StoreProductId = spi.StoreProductId and fs.EndDate > CURDATE() " +
+                        "and sp.StoreProductId = spi.StoreProductId and fs.EndDate > CURDATE() and sp.Status = True " +
                         "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) and " +
                         searchNameProduct +
                         "limit 30";
@@ -343,7 +343,7 @@ public class FlashSaleProductDAO {
                         "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi " +
                         "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
                         "and  sp.StoreProductId = spi.StoreProductId and fs.EndDate > CURDATE() and fsp.FlashSaleProductId = ? " +
-                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1)";
+                        "and sp.Status = True and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1)";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, flashSaleProductId);
                 rs = stm.executeQuery();

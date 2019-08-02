@@ -18,10 +18,6 @@ import java.util.List;
 @RequestMapping(path = "/flashSaleProduct")
 public class FlashSaleProductService {
 
-
-
-
-
     // 6/17/2019 TinLM Create getTopFlashSaleProduct
     @RequestMapping(method = RequestMethod.GET, path = "/getHotFlashSaleProduct", produces = "application/json")
     public List<FlashSaleProduct> getTopFlashSaleProduct() throws SQLException, ClassNotFoundException {

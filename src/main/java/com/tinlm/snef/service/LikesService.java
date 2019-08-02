@@ -14,9 +14,9 @@ public class LikesService {
 
     private LikesDAO lkDao = new LikesDAO();
 
-    @RequestMapping(method = RequestMethod.GET, path = "getById/{customerId}/{storeProductId}", produces = "application/json")
-    public Likes getLikeById(@PathVariable("customerId") int customerId, @PathVariable("storeProductId") int storeProductId ) {
-        Likes likes = lkDao.getLikeById(customerId, storeProductId);
+    @RequestMapping(method = RequestMethod.GET, path = "getById/{accountId}/{storeProductId}", produces = "application/json")
+    public Likes getLikeById(@PathVariable("accountId") int accountId, @PathVariable("storeProductId") int storeProductId ) {
+        Likes likes = lkDao.getLikeById(accountId, storeProductId);
         return likes;
     }
 
@@ -29,8 +29,8 @@ public class LikesService {
 
     //Delete Like of StoreProduct depends on Customer
     @RequestMapping(method = RequestMethod.DELETE, path = "Delete/", produces = "application/json")
-    public @ResponseBody boolean  deleteByProId(@RequestBody int proId, int cusId) throws SQLException, ClassNotFoundException {
-        boolean rs = lkDao.deleteLKByProId(proId, cusId);
+    public @ResponseBody boolean  deleteByProId(@RequestBody int proId, int accountId) throws SQLException, ClassNotFoundException {
+        boolean rs = lkDao.deleteLKByProId(proId, accountId);
         if (rs){
             return true;
         }
@@ -46,9 +46,9 @@ public class LikesService {
 //        }
 //        return false;
 //    }
-    @RequestMapping( method = RequestMethod.GET, path = "insertNewLikes/{customerId}/{storeProductId}", produces = "application/json")
-    public boolean  insertNewLikes(@PathVariable("customerId") int customerId,@PathVariable("storeProductId") int storeProductId) throws SQLException, ClassNotFoundException {
-        boolean rs = lkDao.insertLikeByProId(customerId, storeProductId);
+    @RequestMapping( method = RequestMethod.GET, path = "insertNewLikes/{accountId}/{storeProductId}", produces = "application/json")
+    public boolean  insertNewLikes(@PathVariable("accountId") int accountId,@PathVariable("storeProductId") int storeProductId) throws SQLException, ClassNotFoundException {
+        boolean rs = lkDao.insertLikeByProId(accountId, storeProductId);
         if (rs){
 
             return  true;

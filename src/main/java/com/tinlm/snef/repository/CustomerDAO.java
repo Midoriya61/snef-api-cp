@@ -25,9 +25,9 @@ public class CustomerDAO implements AccountDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select acc.Username,acc.FirstName, acc.LastName, acc.Phone, acc.Email, acc.Avatar, cus.CustomerId, acc.IsActive " +
-                        " from Account acc, Customer cus " +
-                        "where acc.AccountId = cus.AccountId and acc.UserName = ? and acc.Password = ?";
+                String sql = "select AccountId, UserName,FirstName, LastName, Phone, Email, Avatar, IsActive  " +
+                        " from Account  " +
+                        "where UserName = ? and Password = ? and roleId = 3";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, username);
                 stm.setString(2, password);
@@ -40,7 +40,7 @@ public class CustomerDAO implements AccountDAO {
                     result.setPhone(rs.getString("Phone"));
                     result.setEmail(rs.getString("Email"));
                     result.setAvatar(rs.getString("Avatar"));
-                    result.setCustomerId(rs.getInt("CustomerId"));
+
                     result.setActive(rs.getBoolean("IsActive"));
                 }
             }
@@ -63,27 +63,15 @@ public class CustomerDAO implements AccountDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "insert into `Account` (`Username`,`Password`,`FirstName`,`LastName`)  \n" +
-                        "values (?,?,?, ?)";
+                String sql = "insert into `Account` (`Username`,`Password`,`FirstName`,`LastName`, `roleId`)  \n" +
+                        "values (?,?,?, ?,3)";
                 stm = con.prepareStatement(sql);
                 stm.setString(1, username);
                 stm.setString(2, password);
                 stm.setString(3, firstname);
                 stm.setString(4, lastname);
-                int reesult = stm.executeUpdate();
-                if( reesult > 0 ) {
-                    sql = "select AccountId from Account where Username = ?";
-                    stm = con.prepareStatement(sql);
-                    stm.setString(1,username);
-                    rs = stm.executeQuery();
-                    if(rs.next()) {
-                        sql = "insert into `Customer`(`AccountId`) values (?)";
-                        stm = con.prepareStatement(sql);
-                        stm.setInt(1,rs.getInt(1));
-                        result = stm.executeUpdate() > 0;
-                    }
+                result = stm.executeUpdate() > 0;
 
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -25,12 +25,12 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select StoreId, StoreName,StoreManagerId, RatingPoint, Avatar," +
-                        "OpenHour, CloseHour,Address," +
-                        "Latitude, Longitude, Phone, " +
-                        "111.111 * ST_Distance(Point(Latitude, Longitude), Point(?,?)) as distance_in_km " +
-                        "from Store " +
-                        "Order by distance_in_km asc limit 10";
+                    String sql = "select StoreId, StoreName,accountId, RatingPoint, Avatar," +
+                            "OpenHour, CloseHour,Address," +
+                            "Latitude, Longitude, Phone, " +
+                            "111.111 * ST_Distance(Point(Latitude, Longitude), Point(?,?)) as distance_in_km " +
+                            "from Store where Status = True " +
+                            "Order by distance_in_km asc limit 10";
                 stm = con.prepareStatement(sql);
                 stm.setDouble(1, latitude);
                 stm.setDouble(2, longitude);
@@ -40,7 +40,7 @@ public class StoreDAO {
                         result = new ArrayList<>();
                     Store store = new Store();
                     store.setStoreId(rs.getInt("StoreId"));
-                    store.setAccountId(rs.getInt("StoreManagerId"));
+                    store.setAccountId(rs.getInt("accountId"));
                     store.setStoreName(rs.getString("StoreName"));
                     store.setAvatar(rs.getString("Avatar"));
                     store.setOpenHour(rs.getString("OpenHour"));
@@ -70,7 +70,7 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select StoreId, StoreName,StoreManagerId, RatingPoint, Avatar," +
+                String sql = "select StoreId, StoreName,accountId, RatingPoint, Avatar," +
                         "OpenHour, CloseHour,Address," +
                         "Latitude, Longitude, Phone " +
                         "from Store " +
@@ -81,7 +81,7 @@ public class StoreDAO {
                 if (rs.next()){
 
                     result.setStoreId(rs.getInt("StoreId"));
-                    result.setAccountId(rs.getInt("StoreManagerId"));
+                    result.setAccountId(rs.getInt("accountId"));
                     result.setStoreName(rs.getString("StoreName"));
                     result.setAvatar(rs.getString("Avatar"));
                     result.setOpenHour(rs.getString("OpenHour"));
@@ -109,11 +109,11 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select StoreId, StoreName,StoreManagerId, RatingPoint, Avatar," +
+                String sql = "select StoreId, StoreName,accountId, RatingPoint, Avatar," +
                         "OpenHour, CloseHour,Address," +
                         "Latitude,Longitude, Phone, " +
                         "111.111 * ST_Distance(Point(Latitude, Longitude), Point(?,?)) as distance_in_km \n" +
-                        "from Store " +
+                        "from Store where Status = True " +
                         "Order by distance_in_km asc limit 10";
                 stm = con.prepareStatement(sql);
                 stm.setDouble(1, latitude);
@@ -124,7 +124,7 @@ public class StoreDAO {
                         result = new ArrayList<>();
                     Store store = new Store();
                     store.setStoreId(rs.getInt("StoreId"));
-                    store.setAccountId(rs.getInt("StoreManagerId"));
+                    store.setAccountId(rs.getInt("accountId"));
                     store.setStoreName(rs.getString("StoreName"));
                     store.setAvatar(rs.getString("Avatar"));
                     store.setOpenHour(rs.getString("OpenHour"));
