@@ -27,28 +27,6 @@ public class CategoriesService {
     @RequestMapping(method = RequestMethod.GET, path = "/categories", produces = "application/json")
     public List<Categories> getAllCategories() throws SQLException, ClassNotFoundException {
         List<Categories> getList = categoriesDAO.getAllCategories();
-        String google = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=";
-        String search = "stackoverflow";
-        String charset = "UTF-8";
-
-        URL url = null;
-        try {
-            url = new URL(google + URLEncoder.encode(search, charset));
-            Reader reader = new InputStreamReader(url.openStream(), charset);
-            OpenStreetMapUtils results = new Gson().fromJson(reader, OpenStreetMapUtils.class);
-
-            // Show title and URL of 1st result.
-            System.out.println(results.getResponseData().getResults().get(0).getTitle());
-            System.out.println(results.getResponseData().getResults().get(0).getUrl());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         return getList;
     }
 
