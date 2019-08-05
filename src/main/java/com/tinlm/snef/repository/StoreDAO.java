@@ -52,7 +52,6 @@ public class StoreDAO {
                     store.setPhone(rs.getString("Phone"));
                     store.setDistance(rs.getDouble("distance_in_km"));
                     result.add(store);
-
                 }
             }
         }finally {
@@ -62,7 +61,6 @@ public class StoreDAO {
     }
 
     public Store getStoreById(int storeId) throws SQLException, ClassNotFoundException {
-
         Store result = new Store();
         Connection con = null;
         PreparedStatement stm = null;
@@ -79,7 +77,6 @@ public class StoreDAO {
                 stm.setInt(1, storeId);
                 rs = stm.executeQuery();
                 if (rs.next()){
-
                     result.setStoreId(rs.getInt("StoreId"));
                     result.setAccountId(rs.getInt("accountId"));
                     result.setStoreName(rs.getString("StoreName"));

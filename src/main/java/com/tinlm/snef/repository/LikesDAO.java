@@ -60,7 +60,6 @@ public class LikesDAO implements Serializable {
                     int likeId = rs.getInt("LikeId");
                     int accountId = rs.getInt("AccountId");
                     int storeProId = rs.getInt("StoreProductId");
-
                     Likes dto = new Likes(likeId, accountId, storeProId);
                     if (getListLikes == null){
                         getListLikes = new ArrayList<>();
@@ -69,7 +68,6 @@ public class LikesDAO implements Serializable {
 
                 }
                 return  getListLikes;
-
             }
         }finally {
             MyConnection.closeConnection(rs,stm,con);
@@ -120,11 +118,9 @@ public class LikesDAO implements Serializable {
                     return true;
                 }
             }
-
         }finally {
             MyConnection.closeConnection(rs,stm,con);
         }
-
         return  false;
     }
 
@@ -144,11 +140,9 @@ public class LikesDAO implements Serializable {
                     return true;
                 }
             }
-
         }finally {
             MyConnection.closeConnection(rs,stm,con);
         }
-
         return  false;
     }
 }

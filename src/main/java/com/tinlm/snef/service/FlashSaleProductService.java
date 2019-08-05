@@ -56,10 +56,10 @@ public class FlashSaleProductService {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getFSPByName/{searchName}", produces = "application/json")
-    public List<FlashSaleProduct> getFSPByName(@PathVariable("searchName") String searchName) throws SQLException, ClassNotFoundException{
+    @RequestMapping(method = RequestMethod.GET, value = "/getFSPByName/{searchName}/{searchCategories}", produces = "application/json")
+    public List<FlashSaleProduct> getFSPByName(@PathVariable("searchName") String searchName, @PathVariable("searchCategories") String searchCategories) throws SQLException, ClassNotFoundException{
         FlashSaleProductDAO flashSaleProductDAO = new FlashSaleProductDAO();
-        List<FlashSaleProduct> result = flashSaleProductDAO.getFSPByName(searchName);        ;
+        List<FlashSaleProduct> result = flashSaleProductDAO.getFSPByName(searchName,searchCategories);        ;
         return result;
     }
 
