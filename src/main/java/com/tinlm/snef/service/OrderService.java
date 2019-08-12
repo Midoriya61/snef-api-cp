@@ -17,24 +17,31 @@ public class OrderService {
 
     OrderDAO orderDAO = new OrderDAO();
 
-    @RequestMapping(method = RequestMethod.GET, path = "insertNewOrder/{confirmationCode}/{accountId}", produces = "application/json")
-    public boolean insertNewLikes(@PathVariable("confirmationCode") String confirmationCode, @PathVariable("accountId") int accountId) throws SQLException, ClassNotFoundException {
-        boolean rs = orderDAO.createOrder(confirmationCode, accountId);
+    @RequestMapping(method = RequestMethod.GET, path = "insertNewOrder/{confirmationCode}/{accountId}/{storeid}", produces = "application/json")
+    public boolean insertNewLikes(@PathVariable("confirmationCode") String confirmationCode, @PathVariable("accountId") int accountId,
+                                  @PathVariable("storeid") int storeId) throws SQLException, ClassNotFoundException {
+        boolean rs = orderDAO.createOrder(confirmationCode, accountId, storeId);
         if (rs) {
             return true;
         }
         return false;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "getLastOrder/", produces = "application/json")
-    public Order getLastOrder() throws SQLException, ClassNotFoundException {
-        Order result = orderDAO.getLastOrder();
-        return result;
+    @RequestMapping(method = RequestMethod.GET, path = "getLastOrderId", produces = "application/json")
+    public int getLastOrderId() throws SQLException, ClassNotFoundException {
+        int lastOrderId = orderDAO.getLastOrderId();
+        return lastOrderId;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "getAllOrder/", produces = "application/json")
     public List<Order> getAllOrder() throws SQLException, ClassNotFoundException {
         List<Order> result = orderDAO.getAllOrder();
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "getOrderByAccountId/{accountId}", produces = "application/json")
+    public List<Order> getOrderByAccountId(@PathVariable("accountId") int accountId) throws SQLException, ClassNotFoundException {
+        List<Order> result = orderDAO.getOrderByAccountId(accountId);
         return result;
     }
 
@@ -44,9 +51,19 @@ public class OrderService {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "updateRatingBar/{orderId}/{ratingPoint}", produces = "application/json")
-    public boolean updateRatingBar(@PathVariable("orderId") int orderId, @PathVariable("ratingPoint") float ratingPoint) throws SQLException, ClassNotFoundException {
-        boolean result = orderDAO.updateRatingBar(orderId, ratingPoint);
+    @RequestMapping(method = RequestMethod.GET, path = "submitFeedback/{orderId}/{ratingPoint}/{comment}", produces = "application/json")
+    public boolean submitFeedback(@PathVariable("orderId") int orderId, @PathVariable("ratingPoint") float ratingPoint,
+                                  @PathVariable("comment") String comment) throws SQLException, ClassNotFoundException {
+        boolean result = orderDAO.submitFeedback(orderId, ratingPoint, comment);
         return result;
     }
+
+//    @RequestMapping(method = RequestMethod.GET, path = "getOrderByStoreId/{storeId}", produces = "application/json")
+//    public List<Order> getOrderByStoreId(@PathVariable("storeId") int storeId) throws SQLException, ClassNotFoundException {
+//        List<Order> result = orderDAO.getOrderByStoreId(storeId);
+//        return result;
+//    }
+
+
 }
+
