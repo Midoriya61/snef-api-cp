@@ -39,7 +39,7 @@ public class OrderDAO {
         try {
             con = MyConnection.myConnection();
             if (con != null) {
-                String sql = "insert into `Order`(`DateOrder`, `ConfirmationCode`, `Status`, `RatingPoint`, `AccountId`, `storeid`, `Comment`)" +
+                String sql = "insert into `Order`(`DateOrder`, `ConfirmationCode`, `Status`, `RatingPoint`, `accountId`, `storeId`, `Comment`)" +
                         " values(?,?,?,?,?,?,?)";
                 stm = con.prepareStatement(sql);
                 LocalDate localDate = LocalDate.now();
