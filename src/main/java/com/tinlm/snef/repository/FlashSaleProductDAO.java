@@ -32,7 +32,8 @@ public class FlashSaleProductDAO {
                         "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi " +
                         "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
                         "and  sp.StoreProductId = spi.StoreProductId " +
-                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) \n" +
+                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) " +
+                        "and fs.EndDate > CURDATE() and fsp.Status = True \n" +
                         "order by fs.Discount desc limit 10";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
@@ -61,11 +62,7 @@ public class FlashSaleProductDAO {
                     flashSaleProduct.setTotalQuantity(totalQuantity);
                     flashSaleProduct.setImageSrc(rs.getString(10));
                     flashSaleProduct.setDescription(rs.getString(11));
-
-
                     result.add(flashSaleProduct);
-
-
                 }
             }
         }finally {
@@ -85,27 +82,28 @@ public class FlashSaleProductDAO {
             con = MyConnection.myConnection();
             if (con !=null){
                 String sql = "select fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
-                        "fs.StoreId, fs.Discount , fs.EndDate " +
-                        "from Flashsales fs,Store s, StoreProduct sp, FlashsaleProduct fsp \n" +
+                        "fs.StoreId, fs.Discount , fs.EndDate, spi.ImageSrc " +
+                        "from Flashsales fs,Store s, StoreProduct sp, FlashsaleProduct fsp, StoreProductImage spi  \n" +
                         "where fsp.FlashSalesId = fs.FlashSalesId and s.StoreId = sp.StoreId and sp.StoreProductId = fsp.StoreProductId\n" +
-                        " and s.StoreId = ?";
+                        " and  sp.StoreProductId = spi.StoreProductId " +
+                        " and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) " +
+                        "and sp.Status = True and fs.EndDate > CURDATE() and fsp.Status = True and s.StoreId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeId);
                 rs = stm.executeQuery();
                 while (rs.next()){
-                    int flashSaleProductId = rs.getInt(1);
-                    int quantity = rs.getInt(2);
-                    int storeProductId = rs.getInt(3);
-                    int spQuantity = rs.getInt(5);
-                    int discount = rs.getInt(8 );
-                    float price = rs.getFloat(6);
-                    Date endDate = rs.getDate(9);
-                    String productName = rs.getString(4);
+                    FlashSaleProduct flashSaleProduct = new FlashSaleProduct();
+                    flashSaleProduct.setFlashSaleProductId(rs.getInt(1));
+                    flashSaleProduct.setQuantity(rs.getInt(2));
+                    flashSaleProduct.setStoreProductId(rs.getInt(3));
+                    flashSaleProduct.setSpQuantity(rs.getInt(5));
+                    flashSaleProduct.setDiscount(rs.getInt(8 ));
+                    flashSaleProduct.setPrice(rs.getFloat(6));
+                    flashSaleProduct.setEndDate(rs.getDate(9));
+                    flashSaleProduct.setProductName(rs.getString(4));
+                    flashSaleProduct.setImageSrc(rs.getString(10));
 
-                    result.add(new FlashSaleProduct(flashSaleProductId,quantity,storeProductId,
-                            productName,spQuantity,price, storeId,discount,endDate
-                    ));
-
+                    result.add(flashSaleProduct);
                 }
             }
         }finally {
@@ -128,7 +126,8 @@ public class FlashSaleProductDAO {
                         "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi " +
                         "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
                         "and sp.StoreProductId = spi.StoreProductId " +
-                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) ";
+                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) " +
+                        "and fs.EndDate > CURDATE() and fsp.Status = True";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
@@ -156,10 +155,7 @@ public class FlashSaleProductDAO {
                     flashSaleProduct.setTotalQuantity(totalQuantity);
                     flashSaleProduct.setImageSrc(rs.getString(10));
                     flashSaleProduct.setDescription(rs.getString(11));
-
-
                     result.add(flashSaleProduct);
-
                 }
             }
         } catch (SQLException e) {
@@ -186,8 +182,8 @@ public class FlashSaleProductDAO {
                         "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
                         "and sp.StoreProductId = spi.StoreProductId " +
                         "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) " +
-                        " and p.CategoriesId = c.CategoriesId and p.ProductId = sp.ProductId " +
-                        " and c.CategoriesId = ?";
+                        " and p.CategoriesId = c.CategoriesId and p.ProductId = sp.ProductId and fs.EndDate > CURDATE()" +
+                        " and fsp.Status = True and c.CategoriesId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, categoryId);
                 rs = stm.executeQuery();
@@ -216,8 +212,6 @@ public class FlashSaleProductDAO {
                     flashSaleProduct.setTotalQuantity(totalQuantity);
                     flashSaleProduct.setImageSrc(rs.getString(10));
                     flashSaleProduct.setDescription(rs.getString(11));
-
-
                     result.add(flashSaleProduct);
                 }
             }
@@ -255,9 +249,8 @@ public class FlashSaleProductDAO {
         return result;
     }
 
-
     // get flash sale product by search name
-    public List<FlashSaleProduct> getFSPByName(String searchName) {
+    public List<FlashSaleProduct> getFSPByName(String searchName, String searchCategories) {
         List<FlashSaleProduct> result = new ArrayList<>();
         Connection con =null;
         PreparedStatement stm = null;
@@ -268,7 +261,6 @@ public class FlashSaleProductDAO {
                 String[] listSearchName = searchName.split(" ");
                 //change name for fit dbms
                 String searchNameProduct = "";
-
                 for (int i = 0; i < listSearchName.length; i++) {
                     if (i == 0) {
                         searchNameProduct = "sp.ProductName like N'%" + listSearchName[0] + "%' ";
@@ -276,15 +268,31 @@ public class FlashSaleProductDAO {
                         searchNameProduct = searchNameProduct + "AND sp.ProductName like N'%" + listSearchName[i] + "%' ";
                     }
                 }
+                String sql = "";
+                if(searchCategories.equals("all")) {
+                    sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
+                            "fs.StoreId, fs.Discount , fs.EndDate, spi.ImageSrc, sp.Description " +
+                            "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi " +
+                            "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
+                            "and sp.StoreProductId = spi.StoreProductId and fs.EndDate > CURDATE() and fsp.Status = True " +
+                            "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) and " +
+                            searchNameProduct +
+                            "limit 30";
+                } else {
+                    String searchCategorie = searchCategories.substring(0, searchCategories.length() - 1);
+                    sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
+                            "fs.StoreId, fs.Discount , fs.EndDate, spi.ImageSrc, sp.Description " +
+                            "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi," +
+                            "Categories c, Product p " +
+                            "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
+                            "and sp.StoreProductId = spi.StoreProductId and fs.EndDate > CURDATE() and fsp.Status = True " +
+                            "and c.CategoriesId = p.CategoriesId and p.ProductId = sp.ProductId  " +
+                            "and c.CategoriesId in (" + searchCategorie +  ")" +
+                            "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) and " +
+                            searchNameProduct +
+                            "limit 30";
+                }
 
-                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
-                        "fs.StoreId, fs.Discount , fs.EndDate, spi.ImageSrc, sp.Description " +
-                        "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi " +
-                        "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
-                        "and sp.StoreProductId = spi.StoreProductId " +
-                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) and " +
-                        searchNameProduct +
-                        "limit 30";
                 stm = con.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()){
@@ -312,8 +320,6 @@ public class FlashSaleProductDAO {
                     flashSaleProduct.setTotalQuantity(totalQuantity);
                     flashSaleProduct.setImageSrc(rs.getString(10));
                     flashSaleProduct.setDescription(rs.getString(11));
-
-
                     result.add(flashSaleProduct);
                 }
             }
@@ -326,7 +332,6 @@ public class FlashSaleProductDAO {
         }
         return result;
     }
-
 
     public FlashSaleProduct getFSPById(int flashSaleProductId) throws SQLException, ClassNotFoundException {
 
@@ -342,12 +347,11 @@ public class FlashSaleProductDAO {
                         "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi " +
                         "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
                         "and  sp.StoreProductId = spi.StoreProductId and fsp.FlashSaleProductId = ? " +
-                        "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1)";
+                        " and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1)";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, flashSaleProductId);
                 rs = stm.executeQuery();
                 if (rs.next()){
-
                     int fspId = rs.getInt(1);
                     String sqlQuantity = "select SUM(Quantity) as TotalQuantity, FlashSaleProductId from OrderDetail \n" +
                             " Where FlashSaleProductId = ? group by snef_part2.OrderDetail.FlashSaleProductId";
@@ -359,7 +363,6 @@ public class FlashSaleProductDAO {
                         totalQuantity = rsQuantity.getInt("TotalQuantity");
                     }
                     rsQuantity.close();
-
                     flashSaleProduct.setFlashSaleProductId(fspId);
                     flashSaleProduct.setQuantity(rs.getInt(2));
                     flashSaleProduct.setStoreProductId(rs.getInt(3));
@@ -372,7 +375,6 @@ public class FlashSaleProductDAO {
                     flashSaleProduct.setTotalQuantity(totalQuantity);
                     flashSaleProduct.setImageSrc(rs.getString(10));
                     flashSaleProduct.setDescription(rs.getString(11));
-
 
                 }
             }

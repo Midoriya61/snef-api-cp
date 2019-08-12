@@ -2,7 +2,6 @@ package com.tinlm.snef.service;
 
 import com.tinlm.snef.model.FlashSaleProduct;
 import com.tinlm.snef.repository.FlashSaleProductDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,10 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/flashSaleProduct")
 public class FlashSaleProductService {
-
-
-
-
 
     // 6/17/2019 TinLM Create getTopFlashSaleProduct
     @RequestMapping(method = RequestMethod.GET, path = "/getHotFlashSaleProduct", produces = "application/json")
@@ -61,10 +56,10 @@ public class FlashSaleProductService {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getFSPByName/{searchName}", produces = "application/json")
-    public List<FlashSaleProduct> getFSPByName(@PathVariable("searchName") String searchName) throws SQLException, ClassNotFoundException{
+    @RequestMapping(method = RequestMethod.GET, value = "/getFSPByName/{searchName}/{searchCategories}", produces = "application/json")
+    public List<FlashSaleProduct> getFSPByName(@PathVariable("searchName") String searchName, @PathVariable("searchCategories") String searchCategories) throws SQLException, ClassNotFoundException{
         FlashSaleProductDAO flashSaleProductDAO = new FlashSaleProductDAO();
-        List<FlashSaleProduct> result = flashSaleProductDAO.getFSPByName(searchName);        ;
+        List<FlashSaleProduct> result = flashSaleProductDAO.getFSPByName(searchName,searchCategories);        ;
         return result;
     }
 

@@ -19,7 +19,7 @@ public class CustomerService {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "create/{username}/{password}/{firstname}/{lastname}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.POST, path = "create/{username}/{password}/{firstname}/{lastname}", produces = "application/json")
     public Boolean createCustomer(@PathVariable("username") String username, @PathVariable("password") String password,
                                    @PathVariable("firstname") String firstname, @PathVariable("lastname") String lastname  ) {
         CustomerDAO customerDAO = new CustomerDAO();

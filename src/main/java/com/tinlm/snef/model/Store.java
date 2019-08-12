@@ -10,14 +10,13 @@ public class Store {
     private String avatar;
     private String openHour;
     private String closeHour;
+    private String phone;
 
     private String address;
-    private String district;
-    private String ward;
-    private String city;
-    private String country;
+
     private double latitude;
     private double longitude;
+    private double distance;
 
 
     public Store() {
@@ -55,8 +54,14 @@ public class Store {
         this.closeHour = closeHour;
         this.ratingPoint = ratingPoint;
     }
+    
+    public String getPhone() {
+        return phone;
+    }
 
-
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public int getStoreId() {
         return storeId;
@@ -130,38 +135,6 @@ public class Store {
         this.address = address;
     }
 
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getWard() {
-        return ward;
-    }
-
-    public void setWard(String ward) {
-        this.ward = ward;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public double getLatitude() {
         return latitude;
     }
@@ -176,5 +149,13 @@ public class Store {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }
