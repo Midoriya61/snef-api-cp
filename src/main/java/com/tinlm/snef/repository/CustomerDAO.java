@@ -40,7 +40,7 @@ public class CustomerDAO implements AccountDAO {
                     result.setPhone(rs.getString("Phone"));
                     result.setEmail(rs.getString("Email"));
                     result.setAvatar(rs.getString("Avatar"));
-
+                    result.setAccountId(rs.getInt("AccountId"));
                     result.setActive(rs.getBoolean("IsActive"));
                 }
             }
