@@ -13,12 +13,13 @@ public class Order {
     private float ratingPoint;
     private int storeId;
     private String storeName;
+    private String comment;
 
     public Order() {
     }
 
     public Order(int orderId, Date dateOrder, String confirmationCode, boolean status, float ratingPoint,
-                 float totalPrice, int orderQuantity, int storeId, String storeName, int accountId) {
+                 float totalPrice, int orderQuantity, int storeId, String storeName, int accountId, String comment) {
         this.orderId = orderId;
         this.dateOrder = dateOrder;
         this.confirmationCode = confirmationCode;
@@ -29,6 +30,7 @@ public class Order {
         this.orderQuantity = orderQuantity;
         this.storeId = storeId;
         this.storeName = storeName;
+        this.comment = comment;
 
     }
 
@@ -110,6 +112,14 @@ public class Order {
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
 }

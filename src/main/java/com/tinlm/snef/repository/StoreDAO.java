@@ -5,6 +5,8 @@ import com.tinlm.snef.model.Store;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,11 +72,10 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select s.StoreId, s.StoreName,s.StoreManagerId, s.LocationId, s.RatingPoint, s.Avatar," +
-                        " s.OpenHour, s.CloseHour,l.Address, d.DistrictName, w.WardName, c.CityName, coun.CountryName," +
-                        "s.Latitude, s.Longitude from Store s, Location l, District d, Ward w, City c, Country coun " +
-                        " where l.DistrictId = d.DistrictId and d.WardId = w.WardId and " +
-                        " w.CityId = c.CityId and c.CountryId = coun.CountryId and s.LocationId = l.LocationId and " +
+                String sql = "select s.StoreId, s.StoreName,s.accountId, s.Address, s.RatingPoint, s.Avatar," +
+                        " s.OpenHour, s.CloseHour," +
+                        "s.Latitude, s.Longitude from Store s" +
+                        " where" +
                         " s.StoreId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeId);
@@ -82,8 +83,8 @@ public class StoreDAO {
                 if (rs.next()){
 
                     result.setStoreId(rs.getInt("StoreId"));
-                    result.setAccountId(rs.getInt("StoreManagerId"));
-                    result.setLocationId(rs.getInt("LocationId"));
+                    result.setAccountId(rs.getInt("accountId"));
+//                    result.setLocationId(rs.getInt("LocationId"));
                     result.setStoreName(rs.getString("StoreName"));
                     result.setAvatar(rs.getString("Avatar"));
                     result.setOpenHour(rs.getString("OpenHour"));
@@ -91,12 +92,8 @@ public class StoreDAO {
                     result.setLatitude(rs.getDouble("Latitude"));
                     result.setLongitude(rs.getDouble("Longitude"));
                     result.setRatingPoint(rs.getFloat("RatingPoint"));
-
                     result.setAddress(rs.getString("Address"));
-                    result.setWard(rs.getString("WardName"));
-                    result.setCity(rs.getString("CityName"));
-                    result.setCountry(rs.getString("CountryName"));
-                    result.setDistrict(rs.getString("DistrictName"));
+
 
                 }
             }
