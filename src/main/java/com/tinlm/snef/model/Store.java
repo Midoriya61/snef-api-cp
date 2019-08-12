@@ -5,13 +5,11 @@ public class Store {
     private int storeId;
     private int accountId;
     private String storeName;
-    private int locationId;
     private float ratingPoint;
     private String avatar;
     private String openHour;
     private String closeHour;
     private String phone;
-
     private String address;
 
     private double latitude;
@@ -26,7 +24,6 @@ public class Store {
         this.storeId = storeId;
         this.accountId = accountId;
         this.storeName = storeName;
-        this.locationId = locationId;
         this.avatar = avatar;
         this.openHour = openHour;
         this.closeHour = closeHour;
@@ -38,7 +35,6 @@ public class Store {
         this.storeId = storeId;
         this.accountId = accountId;
         this.storeName = storeName;
-        this.locationId = locationId;
         this.avatar = avatar;
         this.openHour = openHour;
         this.closeHour = closeHour;
@@ -48,7 +44,6 @@ public class Store {
         this.storeId = storeId;
         this.accountId = accountId;
         this.storeName = storeName;
-        this.locationId = locationId;
         this.avatar = avatar;
         this.openHour = openHour;
         this.closeHour = closeHour;
@@ -87,13 +82,6 @@ public class Store {
         this.storeName = storeName;
     }
 
-    public int getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
-    }
 
     public float getRatingPoint() {
         return ratingPoint;

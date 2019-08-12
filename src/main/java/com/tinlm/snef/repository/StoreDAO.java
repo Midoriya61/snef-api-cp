@@ -97,7 +97,8 @@ public class StoreDAO {
         return result;
     }
 
-    public List<Store> getStoreByDistance ( double latitude, double longitude ) throws SQLException, ClassNotFoundException {
+    public List<Store> getStoreByDistance ( double latitude, double longitude, double distance )
+            throws SQLException, ClassNotFoundException {
 
         List<Store> result = null;
         Connection con = null;
@@ -111,7 +112,8 @@ public class StoreDAO {
                         "Latitude,Longitude, Phone, " +
                         "111.111 * ST_Distance(Point(Latitude, Longitude), Point(?,?)) as distance_in_km \n" +
                         "from Store where Status = True " +
-                        "Order by distance_in_km asc limit 10";
+                        "having distance_in_km <= " + distance +
+                        " Order by distance_in_km asc limit 10";
                 stm = con.prepareStatement(sql);
                 stm.setDouble(1, latitude);
                 stm.setDouble(2, longitude);

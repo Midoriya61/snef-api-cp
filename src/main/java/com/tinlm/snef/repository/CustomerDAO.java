@@ -83,4 +83,14 @@ public class CustomerDAO implements AccountDAO {
         return result;
     }
 
+    @Override
+    public Boolean updateAccount(String username, String firstname, String lastname, String phone, String address, int gender) {
+        return null;
+    }
+
+    @Override
+    public Boolean updatePassword(String username, String password) {
+        return null;
+    }
+
 }

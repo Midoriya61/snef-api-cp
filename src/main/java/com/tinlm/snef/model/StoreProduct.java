@@ -7,7 +7,7 @@ public class StoreProduct {
     private int storeProductId;
     private int storeId;
     private int productId;
-    private String productName;
+    private String storeProductName;
     private Date expiredDate;
     private int quantity;
     private float price;
@@ -41,12 +41,12 @@ public class StoreProduct {
         this.productId = productId;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getStoreProductName() {
+        return storeProductName;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setStoreProductName(String storeProductName) {
+        this.storeProductName = storeProductName;
     }
 
     public Date getExpiredDate() {

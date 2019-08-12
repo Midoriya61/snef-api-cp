@@ -26,17 +26,12 @@ public class StoreService {
         return getList;
     }
 
-    // TinLM get store by id
-    @RequestMapping(method = RequestMethod.GET, path = "/getById/{storeId}", produces = "application/json")
-    public Store getStoreById(@PathVariable int storeId) throws SQLException, ClassNotFoundException {
-        Store result = storeDAO.getStoreById(storeId);
-        return result;
-    }
-
-    @RequestMapping(path = "getStoreByDistance/{latitude}/{longitude}" +
+    @RequestMapping(path = "getStoreByDistance/{latitude}/{longitude}/{distance}" +
             "",method = RequestMethod.GET, produces = "application/json")
-    public List<Store> getStoreByDistance(@PathVariable("latitude") double latitude, @PathVariable("longitude") double longtide) throws SQLException, ClassNotFoundException {
-        List<Store> getList = storeDAO.getStoreByDistance(latitude, longtide);
+    public List<Store> getStoreByDistance(@PathVariable("latitude") double latitude,
+                                          @PathVariable("longitude") double longtide,
+                                          @PathVariable("distance") double distance) throws SQLException, ClassNotFoundException {
+        List<Store> getList = storeDAO.getStoreByDistance(latitude, longtide, distance);
         return getList;
     }
 }

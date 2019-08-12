@@ -13,73 +13,11 @@ import java.util.List;
 @RequestMapping(path = "/products")
 public class ProductService {
 
-
-
-
-    /*
-     * Get ALL Product API
-     * */
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public List<Product> getAllPro() throws SQLException, ClassNotFoundException {
-        ProductDAO proDao = new ProductDAO();
-        List<Product> getList = proDao.loadAllProduct();
-        System.out.println(getList.size());
-        return getList;
-    }
-
-     /*
-     * Get ALL Product API
-     * */
     @RequestMapping(method = RequestMethod.GET, value = "/getListNameProduct",produces = "application/json")
     public List<Product> getListNameProduct() throws SQLException, ClassNotFoundException {
         ProductDAO proDao = new ProductDAO();
-        List<Product> result = proDao.getListNameProduct();
+            List<Product> result = proDao.getListNameProduct();
         return result;
     }
-
-    /*
-     * Get Product Name API
-     * */
-
-    @RequestMapping(method = RequestMethod.GET, value = "/{name}", produces = "application/json")
-    public List<Product> getProName(@PathVariable String name) throws SQLException, ClassNotFoundException{
-        ProductDAO proDao = new ProductDAO();
-        List<Product> getListName = proDao.searchProByName(name);        ;
-        return getListName;
-    }
-
-    /**
-     * Create new product in table dbo.product
-     * Method Post
-     * Path: /products/create
-     */
-    @PostMapping(value = "/create")
-    public boolean createNewProduct(@Valid @RequestBody Product product) throws SQLException, ClassNotFoundException {
-        ProductDAO proDao = new ProductDAO();
-        String proName = product.getProductName();
-        String pic = product.getImageSrc();
-        int cate = product.getCategoriesId();
-
-        boolean result = proDao.createNewProduct(new Product(proName, cate, pic));
-        System.out.println(result);
-
-        return true;
-    }
-
-    /**
-     * Update product by Id in table dbo.product
-     * Method Post, path: /products/update
-     */
-    @PostMapping(value = "/update", produces = "application/json")
-    public boolean updateProById(@Valid @RequestBody Product product) throws SQLException, ClassNotFoundException {
-        ProductDAO proDao = new ProductDAO();
-        int proId = product.getProductId();
-        String proName = product.getProductName();
-        String pic = product.getImageSrc();
-        int cate = product.getCategoriesId();
-        boolean rs = proDao.updateProById(proId,proName, pic, cate);
-        return true;
-    }
-
 
 }
