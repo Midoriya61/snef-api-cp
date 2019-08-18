@@ -49,7 +49,7 @@ public class OrderDAO {
                 stm.setFloat(4, 0);
                 stm.setInt(5, accountId);
                 stm.setInt(6, storeId);
-                stm.setString(7, null);
+                stm.setString(7, "null");
 
                 int row = stm.executeUpdate();
                 if (row > 0) {
@@ -76,7 +76,7 @@ public class OrderDAO {
             con = MyConnection.myConnection();
             if (con != null) {
 
-                String sql = "select  o.OrderId, o.DateOrder, o.ConfirmationCode, o.Status, o.RatingPoint, o.AccountId, " +
+                String sql = "select  o.OrderId, o.DateOrder, o.ConfirmationCode, o.Status, o.RatingPoint, o.accountId, " +
                         "o.storeid, s.StoreName, o.Comment " +
                         "from snef_part2.Order o, Store s " +
                         "where o.storeid = s.StoreId group by o.OrderId";
@@ -146,10 +146,10 @@ public class OrderDAO {
             con = MyConnection.myConnection();
             if (con != null) {
 
-                String sql = "select  o.OrderId, o.DateOrder, o.ConfirmationCode, o.Status, o.RatingPoint, o.AccountId, " +
+                String sql = "select  o.OrderId, o.DateOrder, o.ConfirmationCode, o.Status, o.RatingPoint, o.accountId, " +
                         "o.storeid, s.StoreName, o.Comment " +
                         "from snef_part2.Order o, Store s " +
-                        "where o.storeid = s.StoreId and o.AccountId = ? group by o.OrderId";
+                        "where o.storeid = s.StoreId and o.accountId = ? group by o.OrderId";
 
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, accountId);
@@ -209,7 +209,7 @@ public class OrderDAO {
     }
 
 
-    public int getLastOrderId() throws SQLException, ClassNotFoundException {
+    public int getLastOrderId(int accountId) throws SQLException, ClassNotFoundException {
         int lastOrderId = 0;
         Connection con = null;
         PreparedStatement stm = null;
@@ -217,8 +217,9 @@ public class OrderDAO {
         try {
             con = MyConnection.myConnection();
             if (con != null) {
-                String sql = "select max(OrderId) as OrderId from snef_part2.Order";
+                String sql = "select max(OrderId) as OrderId from snef_part2.Order where accountId = ?";
                 stm = con.prepareStatement(sql);
+                stm.setInt(1, accountId);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     lastOrderId = rs.getInt("OrderId");
@@ -242,7 +243,7 @@ public class OrderDAO {
 //                String sql2 = "select OrderID, DateOrder, ConfirmationCode, Status, RatingPoint, CustomerCustomerId" +
 //                        " from snef_part2.Order where OrderID = ?";
 
-                String sql = "select  o.OrderId, o.DateOrder, o.ConfirmationCode, o.Status, o.RatingPoint, o.AccountId, " +
+                String sql = "select  o.OrderId, o.DateOrder, o.ConfirmationCode, o.Status, o.RatingPoint, o.accountId, " +
                         "o.storeid, s.StoreName, o.Comment " +
                         "from snef_part2.Order o, OrderDetail od, Store s " +
                         "where o.OrderId = ? and o.storeid = s.StoreId";
@@ -309,12 +310,13 @@ public class OrderDAO {
             Connection con = null;
             PreparedStatement stm = null;
             con = MyConnection.myConnection();
+
             if (con != null) {
                 String sql = "UPDATE snef_part2.Order SET RatingPoint = ?, Comment =? WHERE OrderId = ?";
-
                 stm = con.prepareStatement(sql);
-
                 stm.setFloat(1, ratingPoint);
+                if (comment.equals("null"))
+                    comment = null;
                 stm.setString(2, comment);
                 stm.setInt(3, orderId);
 
@@ -323,6 +325,7 @@ public class OrderDAO {
                     return true;
                 }
             }
+
         } finally {
             closeConnection();
         }

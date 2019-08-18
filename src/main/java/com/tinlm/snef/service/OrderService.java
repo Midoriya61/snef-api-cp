@@ -27,9 +27,9 @@ public class OrderService {
         return false;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "getLastOrderId", produces = "application/json")
-    public int getLastOrderId() throws SQLException, ClassNotFoundException {
-        int lastOrderId = orderDAO.getLastOrderId();
+    @RequestMapping(method = RequestMethod.GET, path = "getLastOrderId/{accountId}", produces = "application/json")
+    public int getLastOrderId(@PathVariable("accountId") int accountId) throws SQLException, ClassNotFoundException {
+        int lastOrderId = orderDAO.getLastOrderId(accountId);
         return lastOrderId;
     }
 
