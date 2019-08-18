@@ -34,4 +34,11 @@ public class StoreService {
         List<Store> getList = storeDAO.getStoreByDistance(latitude, longtide, distance);
         return getList;
     }
+    // TinLM get store by id
+    @RequestMapping(method = RequestMethod.GET, path = "/getById/{storeId}", produces = "application/json")
+    public Store getStoreById(@PathVariable int storeId) throws SQLException, ClassNotFoundException {
+        Store result = storeDAO.getStoreById(storeId);
+        return result;
+    }
+
 }
