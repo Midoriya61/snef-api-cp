@@ -274,7 +274,7 @@ public class FlashSaleProductDAO {
                             "fs.StoreId, fs.Discount , fs.EndDate, spi.ImageSrc, sp.Description " +
                             "from FlashsaleProduct fsp, StoreProduct sp, Flashsales fs , StoreProductImage spi " +
                             "where fsp.FlashSalesId = fs.FlashSalesId and fsp.StoreProductId = sp.StoreProductId " +
-                            "and sp.StoreProductId = spi.StoreProductId and fs.EndDate > CURDATE() and fsp.Status = True " +
+                                "and sp.StoreProductId = spi.StoreProductId and fs.EndDate > CURDATE() and fsp.Status = True " +
                             "and spi.SPIId = (select SPIId from StoreProductImage where StoreProductId = sp.StoreProductId limit 1) and " +
                             searchNameProduct +
                             "limit 30";
