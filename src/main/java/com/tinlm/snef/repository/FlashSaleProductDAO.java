@@ -231,8 +231,10 @@ public class FlashSaleProductDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = " select (fsp.Quantity - od.Quantity) as RemaingQuantity" +
-                        " from FlashsaleProduct fsp, OrderDetail as od where od.FlashSaleProductId = fsp.FlashSaleProductId \n" +
+                String sql = " select fsp.FlashSaleProductId, (fsp.Quantity - od.totalQuantity) as RemaingQuantity " +
+                        "from FlashsaleProduct fsp, " +
+                        "(select FlashSaleProductId, SUM(Quantity) as totalQuantity from OrderDetail group by  FlashSaleProductId) as od " +
+                        "where od.FlashSaleProductId = fsp.FlashSaleProductId " +
                         " and fsp.FlashSaleProductId = ?";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, fspId);

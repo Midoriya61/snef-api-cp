@@ -11,6 +11,7 @@ public abstract class Account {
     private String email;
     private boolean isActive;
     private String avatar;
+    private int gender;
 
     public Account() {}
 
@@ -84,5 +85,13 @@ public abstract class Account {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 }
