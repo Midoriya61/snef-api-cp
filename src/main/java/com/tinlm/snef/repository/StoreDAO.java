@@ -25,11 +25,16 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                    String sql = "select StoreId, StoreName,accountId, RatingPoint, Avatar," +
-                            "OpenHour, CloseHour,Address," +
-                            "Latitude, Longitude, Phone, " +
-                            "111.111 * ST_Distance(Point(Latitude, Longitude), Point(?,?)) as distance_in_km " +
-                            "from Store where Status = True " +
+                    String sql = "select s.StoreId, s.StoreName,s.accountId, od.rp as RatingPoint, s.Avatar," +
+                            "s.OpenHour, s.CloseHour,s.Address," +
+                            "s.Latitude,s.Longitude, s.Phone, " +
+                            "111.111 * ST_Distance(Point(s.Latitude, s.Longitude), Point(?,?)) as distance_in_km \n" +
+                            "from Store s, " +
+                            "(select storeId, avg(RatingPoint) as rp" +
+                            " from snef_part2.Order" +
+                            " where RatingPoint != 0" +
+                            " group by storeId) as od where s.Status = True and " +
+                            "s.StoreId = od.storeId " +
                             "Order by distance_in_km asc limit 10";
                 stm = con.prepareStatement(sql);
                 stm.setDouble(1, latitude);
@@ -68,11 +73,14 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select StoreId, StoreName,accountId, RatingPoint, Avatar," +
-                        "OpenHour, CloseHour,Address," +
-                        "Latitude, Longitude, Phone " +
-                        "from Store " +
-                        "where  StoreId = ?";
+                String sql = "select s.StoreId, s.StoreName,s.accountId, od.rp as RatingPoint, s.Avatar," +
+                        "s.OpenHour, s.CloseHour,s.Address," +
+                        "s.Latitude, s.Longitude, s.Phone " +
+                        "from Store s, " +
+                        "(select storeId, avg(RatingPoint) as rp from snef_part2.Order " +
+                        "where RatingPoint != 0 " +
+                        " group by storeId) as od " +
+                        "where  s.StoreId = ? and s.StoreId = od.storeId";
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, storeId);
                 rs = stm.executeQuery();
@@ -107,11 +115,15 @@ public class StoreDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select StoreId, StoreName,accountId, RatingPoint, Avatar," +
-                        "OpenHour, CloseHour,Address," +
-                        "Latitude,Longitude, Phone, " +
-                        "111.111 * ST_Distance(Point(Latitude, Longitude), Point(?,?)) as distance_in_km \n" +
-                        "from Store where Status = True " +
+                String sql = "select s.StoreId, s.StoreName,s.accountId, od.rp as RatingPoint, s.Avatar," +
+                        "s.OpenHour, s.CloseHour,s.Address," +
+                        "s.Latitude,s.Longitude, s.Phone, " +
+                        "111.111 * ST_Distance(Point(s.Latitude, s.Longitude), Point(?,?)) as distance_in_km \n" +
+                        "from Store s, " +
+                        "(select storeId, avg(RatingPoint) as rp from snef_part2.Order " +
+                        "where RatingPoint != 0 " +
+                        " group by storeId) as od where s.Status = True and " +
+                        "s.StoreId = od.storeId " +
                         "having distance_in_km <= " + distance +
                         " Order by distance_in_km asc limit 10";
                 stm = con.prepareStatement(sql);

@@ -26,4 +26,23 @@ public class CustomerService {
         Boolean result = customerDAO.createAccount(username, password,firstname, lastname);
         return result;
     }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "update/{accountId}/{phone}/{address}",
+    produces = "application/json")
+    public Boolean updateCustomer(@PathVariable("accountId") int accountId,
+                                  @PathVariable("phone") String phone,
+                                  @PathVariable("address") String address) {
+        CustomerDAO customerDAO = new CustomerDAO();
+        Boolean result = customerDAO.updateAccount(accountId, phone, address);
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "updatePassword/{accountId}/{password}",
+            produces = "application/json")
+    public Boolean updatePassword(@PathVariable("accountId") int accountId,
+                                  @PathVariable("password") String password) {
+        CustomerDAO customerDAO = new CustomerDAO();
+        Boolean result = customerDAO.updatePassword(accountId, password);
+        return result;
+    }
 }

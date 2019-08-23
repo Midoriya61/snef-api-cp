@@ -81,8 +81,9 @@ public class FlashSaleProductDAO {
         try {
             con = MyConnection.myConnection();
             if (con !=null){
-                String sql = "select fsp.FlashSaleProductId, fsp.Quantity, sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
-                        "fs.StoreId, fs.Discount , fs.EndDate, spi.ImageSrc " +
+                String sql = "select  fsp.FlashSaleProductId, fsp.Quantity," +
+                        " sp.StoreProductId, sp.ProductName, sp.Quantity as SpQuantity, sp.Price ," +
+                        " fs.StoreId, fs.Discount , fs.EndDate, spi.ImageSrc, sp.Description " +
                         "from Flashsales fs,Store s, StoreProduct sp, FlashsaleProduct fsp, StoreProductImage spi  \n" +
                         "where fsp.FlashSalesId = fs.FlashSalesId and s.StoreId = sp.StoreId and sp.StoreProductId = fsp.StoreProductId\n" +
                         " and  sp.StoreProductId = spi.StoreProductId " +
@@ -92,17 +93,30 @@ public class FlashSaleProductDAO {
                 stm.setInt(1, storeId);
                 rs = stm.executeQuery();
                 while (rs.next()){
+                    int fspId = rs.getInt(1);
+                    String sqlQuantity = "select SUM(Quantity) as TotalQuantity, FlashSaleProductId from OrderDetail \n" +
+                            " Where FlashSaleProductId = ? group by snef_part2.OrderDetail.FlashSaleProductId";
+                    stm = con.prepareStatement(sqlQuantity);
+                    stm.setInt(1,fspId);
+                    ResultSet rsQuantity = stm.executeQuery();
+                    int totalQuantity = 0;
+                    if( rsQuantity.next() ) {
+                        totalQuantity = rsQuantity.getInt("TotalQuantity");
+                    }
+                    rsQuantity.close();
                     FlashSaleProduct flashSaleProduct = new FlashSaleProduct();
-                    flashSaleProduct.setFlashSaleProductId(rs.getInt(1));
+                    flashSaleProduct.setFlashSaleProductId(fspId);
                     flashSaleProduct.setQuantity(rs.getInt(2));
                     flashSaleProduct.setStoreProductId(rs.getInt(3));
                     flashSaleProduct.setSpQuantity(rs.getInt(5));
-                    flashSaleProduct.setDiscount(rs.getInt(8 ));
+                    flashSaleProduct.setStoreId(rs.getInt(7));
+                    flashSaleProduct.setDiscount(rs.getInt(8));
                     flashSaleProduct.setPrice(rs.getFloat(6));
                     flashSaleProduct.setEndDate(rs.getDate(9));
                     flashSaleProduct.setProductName(rs.getString(4));
+                    flashSaleProduct.setTotalQuantity(totalQuantity);
                     flashSaleProduct.setImageSrc(rs.getString(10));
-
+                    flashSaleProduct.setDescription(rs.getString(11));
                     result.add(flashSaleProduct);
                 }
             }
@@ -239,8 +253,16 @@ public class FlashSaleProductDAO {
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, fspId);
                 rs = stm.executeQuery();
-                while (rs.next()){
+                if (rs.next()){
                     result = rs.getInt(1);
+                } else {
+                    sql = "select Quantity from FlashsaleProduct where FlashSaleProductId = ?";
+                    stm = con.prepareStatement(sql);
+                    stm.setInt(1,fspId);
+                    rs = stm.executeQuery();
+                    if (rs.next()) {
+                        result = rs.getInt(1);
+                    }
                 }
             }
         } catch (ClassNotFoundException e) {

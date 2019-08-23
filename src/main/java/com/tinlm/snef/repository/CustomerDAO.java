@@ -35,6 +35,7 @@ public class CustomerDAO implements AccountDAO {
                 if (rs.next()){
                     result = new Customer();
                     result.setUserName(rs.getString("Username"));
+                    result.setPassword(password);
                     result.setFirstName(rs.getString("FirstName"));
                     result.setLastName(rs.getString("LastName"));
                     result.setPhone(rs.getString("Phone"));
@@ -84,13 +85,56 @@ public class CustomerDAO implements AccountDAO {
     }
 
     @Override
-    public Boolean updateAccount(String username, String firstname, String lastname, String phone, String address, int gender) {
-        return null;
+    public Boolean updateAccount(int accountId, String phone, String address) {
+        Boolean result = false;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql = "update `Account` set Phone = ?, Email = ? where AccountId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, phone);
+                stm.setString(2, address);
+                stm.setInt(3, accountId);
+                result = stm.executeUpdate() > 0;
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            MyConnection.closeConnection(rs,stm,con);
+        }
+        return result;
     }
 
     @Override
-    public Boolean updatePassword(String username, String password) {
-        return null;
+    public Boolean updatePassword(int accountId, String password) {
+        Boolean result = false;
+        Connection con = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            con = MyConnection.myConnection();
+            if (con !=null){
+                String sql = "update `Account` set Password = ? where AccountId = ?";
+                stm = con.prepareStatement(sql);
+                stm.setString(1, password);
+                stm.setInt(2, accountId);
+                result = stm.executeUpdate() > 0;
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            MyConnection.closeConnection(rs,stm,con);
+        }
+        return result;
     }
 
 }
